@@ -25,11 +25,19 @@ function drawChart(canvasId, label, points, colorHex) {
   });
 }
 
-function renderSummary(s) {
+function renderSummary(s, coin) {
   document.getElementById('summary').innerHTML = `
-    <div class="card"><div>코인 10지표 종합</div><h3>${s.total}/10</h3><span class="badge ${color(s.signal)}">${s.signal}</span></div>
+    <div class="card"><div>${coin} 10지표 종합</div><h3>${s.total}/10</h3><span class="badge ${color(s.signal)}">${s.signal}</span></div>
     <div class="card"><div>청신호</div><h3>${s.green}</h3></div>
     <div class="card"><div>적신호</div><h3>${s.red}</h3></div>
+  `;
+}
+
+function renderCommittee(c) {
+  document.getElementById('committeeTop').innerHTML = `
+    <div class="card"><div>위원회 점수</div><h3>${c.score}/10</h3><span class="badge ${color(c.signal)}">${c.signal}</span></div>
+    <div class="card"><div>최종 의견</div><h3>${c.decision}</h3></div>
+    <div class="card"><div>진입 플랜</div><small>${c.entryPlan.join('<br/>')}</small></div>
   `;
 }
 
@@ -41,6 +49,25 @@ function renderKimchi(k) {
     <div class="card"><div>BTC 업비트</div><h3>${fmt(k.btcKrw)}원</h3><span class="badge ${k.btcPrem >= 0 ? 'w' : 'g'}">김프 ${chip(k.btcPrem)}</span></div>
     <div class="card"><div>ETH 업비트</div><h3>${fmt(k.ethKrw)}원</h3><span class="badge ${k.ethPrem >= 0 ? 'w' : 'g'}">김프 ${chip(k.ethPrem)}</span></div>
   `;
+}
+
+function renderDesks(desks) {
+  document.getElementById('desks').innerHTML = desks.map((d) => `
+    <div class="item">
+      <div class="top"><b>${d.name}</b><span class="badge ${color(d.signal)}">${d.score}/10 · ${d.signal} · ${d.stance}</span></div>
+      <small>핵심 논리: ${d.thesis}</small>
+      <small>행동 제안: ${d.action}</small>
+    </div>
+  `).join('');
+}
+
+function renderHistory(rows) {
+  document.getElementById('history').innerHTML = rows.map((h) => `
+    <div class="item">
+      <div class="top"><b>${h.year} ${h.type} 국면</b><span class="badge ${h.return30d >= 0 ? 'g' : 'r'}">30D ${h.return30d}%</span></div>
+      <small>${h.note}</small>
+    </div>
+  `).join('');
 }
 
 function renderIndicators(indicators) {
@@ -56,9 +83,14 @@ function renderIndicators(indicators) {
 async function main() {
   const data = await loadData();
   document.getElementById('generatedAt').textContent = `업데이트: ${new Date(data.generatedAt).toLocaleString('ko-KR')}`;
-  renderSummary(data.summary);
+
+  renderSummary(data.summary, data.targetCoin || 'ETH');
+  renderCommittee(data.committee);
   renderKimchi(data.kimchi);
-  renderIndicators(data.indicators);
+  renderDesks(data.committee.desks || []);
+  renderHistory(data.historyComparisons || []);
+  renderIndicators(data.indicators || []);
+
   drawChart('btcChart', 'BTC/USD', data.charts.btc, '#f59e0b');
   drawChart('ethChart', 'ETH/USD', data.charts.eth, '#60a5fa');
 }

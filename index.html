@@ -3,21 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crypto Chief Dashboard</title>
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <title>Crypto Committee Dashboard v2</title>
+  <link rel="stylesheet" href="styles.css?v=4" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <main class="wrap">
     <header class="hero">
-      <h1>🪙 Crypto Chief Dashboard</h1>
+      <h1>🧠 ETH 투자위원회 상황실 v2</h1>
       <p id="generatedAt">로딩 중...</p>
     </header>
 
     <section class="summary" id="summary"></section>
 
     <section class="panel">
-      <h2>김치 프리미엄 (실시간)</h2>
+      <h2>위원회 최종 결론</h2>
+      <div id="committeeTop" class="summary"></div>
+    </section>
+
+    <section class="panel">
+      <h2>김치 프리미엄</h2>
       <div id="kimchi" class="summary"></div>
     </section>
 
@@ -33,11 +38,21 @@
     </section>
 
     <section class="panel">
-      <h2>코인 10지표 상세 분석</h2>
+      <h2>전문가 그룹 의견</h2>
+      <div id="desks" class="list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>과거 유사 국면 비교 (2021/2024 포함)</h2>
+      <div id="history" class="list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>10지표 원본</h2>
       <div id="cryptoIndicators" class="list"></div>
     </section>
   </main>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
