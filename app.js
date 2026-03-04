@@ -51,8 +51,8 @@ function renderKimchi(k) {
 
 function renderDesks(desks) {
   document.getElementById('desks').innerHTML = desks.map((d) => `
-    <div class="desk-item">
-      <div class="top"><b>${d.name}</b><span class="badge ${recClass(d.recommendation)}">${d.recommendation}</span></div>
+    <div class="desk-item ${recClass(d.recommendation)}">
+      <div class="top"><b>${d.name}</b><span class="badge">${d.recommendation}</span></div>
       <small>점수: ${d.score}/10 (${d.signal})</small>
       <small>핵심 논리: ${d.thesis}</small>
       <small>행동 제안: ${d.action}</small>
@@ -60,13 +60,16 @@ function renderDesks(desks) {
   `).join('');
 }
 
-function renderHistory(rows) {
-  document.getElementById('history').innerHTML = rows.map((h) => `
+function renderHistoryModel(h) {
+  document.getElementById('historyModel').innerHTML = `
     <div class="item">
-      <div class="top"><b>${h.year} ${h.type} 국면</b><span class="badge ${h.return30d >= 0 ? 'g' : 'r'}">30D ${h.return30d}%</span></div>
-      <small>${h.note}</small>
+      <div class="top"><b>패턴 엔진 상태</b><span class="badge g">활성</span></div>
+      <small>비교 프레임: ${h.framework}</small>
+      <small>반영된 기준: ${h.features.join(', ')}</small>
+      <small>현재 해석: ${h.currentInterpretation}</small>
+      <small>주의 포인트: ${h.riskNote}</small>
     </div>
-  `).join('');
+  `;
 }
 
 function renderIndicators(indicators) {
@@ -87,7 +90,7 @@ async function main() {
   renderCommittee(data.committee);
   renderKimchi(data.kimchi);
   renderDesks(data.committee.desks || []);
-  renderHistory(data.historyComparisons || []);
+  renderHistoryModel(data.historyModel || {framework:'N/A',features:[],currentInterpretation:'N/A',riskNote:'N/A'});
   renderIndicators(data.indicators || []);
 }
 
