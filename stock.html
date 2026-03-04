@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>주식 - 투자위원회 의견</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=11" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <h1>KOSPI - 투자위원회 의견</h1>
+      <p id="generatedAt">로딩 중...</p>
+    </header>
+
+    <section class="panel panel-desks"><h2>🧠 전문가 그룹 의견</h2><div id="desks" class="desk-grid"></div></section>
+    <section class="panel panel-committee"><h2>🧾 위원회 최종 결론</h2><div id="committeeTop" class="summary"></div></section>
+    <section class="panel panel-kimchi"><h2>💱 시장 요약</h2><div id="kimchi" class="summary"></div></section>
+    <section class="panel panel-history"><h2>🗂️ 역사 패턴 엔진 반영 요약</h2><div id="historyModel" class="list"></div></section>
+    <section class="panel panel-indicators"><h2>📌 10지표 원본</h2><div id="cryptoIndicators" class="list"></div></section>
+    <section class="summary" id="summary"></section>
+  </main>
+  <script src="stock.js?v=1"></script>
+</body>
+</html>
