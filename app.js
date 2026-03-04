@@ -72,15 +72,45 @@ function friendlyDeskName(name) {
   return m[name] || name;
 }
 
+function positionGuides(rec) {
+  const map = {
+    '공격 진입 가능': {
+      holder: '보유자: 코어 유지 + 일부 추세추종 증액 검토',
+      noPos: '무포지션: 1차 진입 즉시 가능, 분할 전제'
+    },
+    '분할 진입 구간': {
+      holder: '보유자: 보유 유지, 눌림 구간에서 회전매매',
+      noPos: '무포지션: 20/30/50 분할로 진입 시작'
+    },
+    '관망/대기': {
+      holder: '보유자: 성급한 매도/추격 금지, 계획 유지',
+      noPos: '무포지션: 트리거 확인 전 대기'
+    },
+    '비중 축소 고려': {
+      holder: '보유자: 반등 시 일부 비중 축소 검토',
+      noPos: '무포지션: 신규 진입 보류'
+    },
+    '방어 최우선': {
+      holder: '보유자: 손실 한도 우선, 비코어 축소',
+      noPos: '무포지션: 관찰 모드 유지'
+    }
+  };
+  return map[rec] || { holder: '보유자: 계획 유지', noPos: '무포지션: 대기' };
+}
+
 function renderDesks(desks) {
-  document.getElementById('desks').innerHTML = desks.map((d) => `
+  document.getElementById('desks').innerHTML = desks.map((d) => {
+    const g = positionGuides(d.recommendation);
+    return `
     <div class="desk-item ${recClass(d.recommendation)}">
       <div class="top"><b>${friendlyDeskName(d.name)}</b><span class="badge">${d.recommendation}</span></div>
       <small>점수: ${d.score}/10 (${d.signal})</small>
       <small>핵심 논리: ${d.thesis}</small>
       <small>행동 제안: ${d.action}</small>
+      <small>📌 ${g.holder}</small>
+      <small>🧭 ${g.noPos}</small>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 function renderHistoryModel(h) {
