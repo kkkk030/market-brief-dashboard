@@ -26,15 +26,16 @@ def signal(s: float):
 
 
 def recommendation(s: float):
+    # 행동형 라벨 (오해 방지)
     if s >= 8.0:
-        return "매수적극추천"
+        return "공격 진입 가능"
     if s >= 6.5:
-        return "매수추천"
+        return "분할 진입 구간"
     if s >= 4.5:
-        return "관망"
+        return "관망/대기"
     if s >= 3.0:
-        return "매도추천"
-    return "매도적극추천"
+        return "비중 축소 고려"
+    return "방어 최우선"
 
 
 def pct(a: float, b: float):
@@ -248,6 +249,7 @@ def main():
         "targetCoin": cfg['name'],
         "summary": {
             "total": total,
+            "index100": round(total * 10, 0),
             "signal": signal(total),
             "green": len([x for x in indicators if x["signal"] == "청신호"]),
             "red": len([x for x in indicators if x["signal"] == "적신호"]),

@@ -1,10 +1,10 @@
 const color = (s) => (s === '청신호' ? 'g' : s === '관망' ? 'w' : 'r');
 
 const recClass = (r) => {
-  if (r === '매수적극추천') return 'rec-strong-buy';
-  if (r === '매수추천') return 'rec-buy';
-  if (r === '관망') return 'rec-hold';
-  if (r === '매도추천') return 'rec-sell';
+  if (r === '공격 진입 가능') return 'rec-strong-buy';
+  if (r === '분할 진입 구간') return 'rec-buy';
+  if (r === '관망/대기') return 'rec-hold';
+  if (r === '비중 축소 고려') return 'rec-sell';
   return 'rec-strong-sell';
 };
 
@@ -16,9 +16,9 @@ async function loadData() {
 
 function renderSummary(s, coin) {
   document.getElementById('summary').innerHTML = `
-    <div class="card"><div>${coin} 10지표 종합</div><h3>${s.total}/10</h3><span class="badge ${color(s.signal)}">${s.signal}</span></div>
-    <div class="card"><div>청신호</div><h3>${s.green}</h3></div>
-    <div class="card"><div>적신호</div><h3>${s.red}</h3></div>
+    <div class="card"><div>${coin} 종합 신호지수</div><h3>${s.index100}/100</h3><span class="badge ${color(s.signal)}">${s.signal}</span></div>
+    <div class="card"><div>긍정 신호 수</div><h3>${s.green}</h3></div>
+    <div class="card"><div>경계 신호 수</div><h3>${s.red}</h3></div>
   `;
 }
 
