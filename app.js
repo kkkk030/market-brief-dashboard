@@ -58,10 +58,24 @@ function renderKimchi(k, coin) {
   `;
 }
 
+function friendlyDeskName(name) {
+  const m = {
+    'Regime Desk': '시장 분위기 팀',
+    'Macro Liquidity Desk': '유동성/거시 팀',
+    'On-chain/Flow Desk': '자금흐름 팀',
+    'Derivatives Desk': '파생 포지션 팀',
+    'Technical Structure Desk': '차트/추세 팀',
+    'Relative Value Desk': '상대강도 팀',
+    'Event/Narrative Desk': '뉴스/이슈 팀',
+    'Risk Control Desk': '리스크 관리 팀'
+  };
+  return m[name] || name;
+}
+
 function renderDesks(desks) {
   document.getElementById('desks').innerHTML = desks.map((d) => `
     <div class="desk-item ${recClass(d.recommendation)}">
-      <div class="top"><b>${d.name}</b><span class="badge">${d.recommendation}</span></div>
+      <div class="top"><b>${friendlyDeskName(d.name)}</b><span class="badge">${d.recommendation}</span></div>
       <small>점수: ${d.score}/10 (${d.signal})</small>
       <small>핵심 논리: ${d.thesis}</small>
       <small>행동 제안: ${d.action}</small>
