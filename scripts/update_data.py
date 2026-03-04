@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import urllib.request
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -66,22 +67,30 @@ def find_history_regimes(btc_daily):
 
 
 def main():
+    coin = (sys.argv[1] if len(sys.argv) > 1 else "ETH").upper()
+    coin_map = {
+        "ETH": {"binance": "ETHUSDT", "upbit": "KRW-ETH", "name": "ETH"},
+        "XRP": {"binance": "XRPUSDT", "upbit": "KRW-XRP", "name": "XRP"},
+    }
+    cfg = coin_map.get(coin, coin_map["ETH"])
+
     # 차트 데이터
     btc_kl_4h = get_json("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=4h&limit=42")
-    eth_kl_4h = get_json("https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=4h&limit=42")
+    coin_kl_4h = get_json(f"https://api.binance.com/api/v3/klines?symbol={cfg['binance']}&interval=4h&limit=42")
     btc_chart = [[k[0], float(k[4])] for k in btc_kl_4h]
-    eth_chart = [[k[0], float(k[4])] for k in eth_kl_4h]
+    coin_chart = [[k[0], float(k[4])] for k in coin_kl_4h]
 
     # 핵심 시세/파생/심리
     fear = float(get_json("https://api.alternative.me/fng/?limit=1")["data"][0]["value"])
     p_b = get_json("https://fapi.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT")
-    p_e = get_json("https://fapi.binance.com/fapi/v1/premiumIndex?symbol=ETHUSDT")
-    oi_eth = get_json("https://fapi.binance.com/futures/data/openInterestHist?symbol=ETHUSDT&period=1d&limit=2")
-    taker_eth = get_json("https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=ETHUSDT&period=1d&limit=2")
+    p_e = get_json(f"https://fapi.binance.com/fapi/v1/premiumIndex?symbol={cfg['binance']}")
+    oi_eth = get_json(f"https://fapi.binance.com/futures/data/openInterestHist?symbol={cfg['binance']}&period=1d&limit=2")
+    taker_eth = get_json(f"https://fapi.binance.com/futures/data/takerlongshortRatio?symbol={cfg['binance']}&period=1d&limit=2")
 
-    ethbtc_1d = get_json("https://api.binance.com/api/v3/klines?symbol=ETHBTC&interval=1d&limit=90")
+    coinbtc_symbol = "ETHBTC" if cfg['name']=="ETH" else "XRPBTC"
+    ethbtc_1d = get_json(f"https://api.binance.com/api/v3/klines?symbol={coinbtc_symbol}&interval=1d&limit=90")
     btc_1d = get_json("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=90")
-    eth_1d = get_json("https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&limit=90")
+    eth_1d = get_json(f"https://api.binance.com/api/v3/klines?symbol={cfg['binance']}&interval=1d&limit=90")
     btc_1d_long = get_json("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=1000")
 
     c_eb = kline_close(ethbtc_1d)
@@ -102,9 +111,9 @@ def main():
 
     # 김프
     up_b = get_json("https://api.upbit.com/v1/ticker?markets=KRW-BTC")[0]["trade_price"]
-    up_e = get_json("https://api.upbit.com/v1/ticker?markets=KRW-ETH")[0]["trade_price"]
+    up_e = get_json(f"https://api.upbit.com/v1/ticker?markets={cfg['upbit']}")[0]["trade_price"]
     b_usdt = float(get_json("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")["price"])
-    e_usdt = float(get_json("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT")["price"])
+    e_usdt = float(get_json(f"https://api.binance.com/api/v3/ticker/price?symbol={cfg['binance']}")["price"])
     usdkrw = get_json("https://open.er-api.com/v6/latest/USD")["rates"]["KRW"]
     fair_b = b_usdt * usdkrw
     fair_e = e_usdt * usdkrw
@@ -236,7 +245,7 @@ def main():
 
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "targetCoin": "ETH",
+        "targetCoin": cfg['name'],
         "summary": {
             "total": total,
             "signal": signal(total),
@@ -275,9 +284,9 @@ def main():
         "kimchi": {
             "usdkrw": usdkrw,
             "btcKrw": up_b,
-            "ethKrw": up_e,
+            "coinKrw": up_e,
             "btcPrem": kim_b,
-            "ethPrem": kim_e,
+            "coinPrem": kim_e,
         },
         "indicators": indicators,
     }

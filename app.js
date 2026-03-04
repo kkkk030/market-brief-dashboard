@@ -22,13 +22,13 @@ function renderSummary(s, coin) {
   `;
 }
 
-function renderCommittee(c) {
+function renderCommittee(c, coin) {
   const t = c.tradePlan;
   const fmt = (n) => Number(n).toLocaleString('ko-KR');
   document.getElementById('committeeTop').innerHTML = `
     <div class="card"><div>위원회 점수</div><h3>${c.score}/10</h3><span class="badge ${color(c.signal)}">${c.signal}</span></div>
     <div class="card"><div>최종 의견</div><h3>${c.decision}</h3></div>
-    <div class="card"><div>종합 매매전략</div>
+    <div class="card"><div>${coin} 종합 매매전략</div>
       <small>현재가: ${fmt(t.currentPrice)}원</small>
       <small>1차 매수: ${fmt(t.entry1.price)}원 (${t.entry1.allocation})</small>
       <small>2차 매수: ${fmt(t.entry2.price)}원 (${t.entry2.allocation})</small>
@@ -39,13 +39,13 @@ function renderCommittee(c) {
   `;
 }
 
-function renderKimchi(k) {
+function renderKimchi(k, coin) {
   const fmt = (n) => Number(n).toLocaleString('ko-KR', { maximumFractionDigits: 0 });
   const chip = (v) => (v >= 0 ? `+${v.toFixed(2)}%` : `${v.toFixed(2)}%`);
   document.getElementById('kimchi').innerHTML = `
     <div class="card"><div>USD/KRW</div><h3>${k.usdkrw.toFixed(2)}</h3></div>
     <div class="card"><div>BTC 업비트</div><h3>${fmt(k.btcKrw)}원</h3><span class="badge ${k.btcPrem >= 0 ? 'w' : 'g'}">김프 ${chip(k.btcPrem)}</span></div>
-    <div class="card"><div>ETH 업비트</div><h3>${fmt(k.ethKrw)}원</h3><span class="badge ${k.ethPrem >= 0 ? 'w' : 'g'}">김프 ${chip(k.ethPrem)}</span></div>
+    <div class="card"><div>${coin} 업비트</div><h3>${fmt(k.coinKrw)}원</h3><span class="badge ${k.coinPrem >= 0 ? 'w' : 'g'}">김프 ${chip(k.coinPrem)}</span></div>
   `;
 }
 
@@ -86,9 +86,10 @@ async function main() {
   const data = await loadData();
   document.getElementById('generatedAt').textContent = `업데이트: ${new Date(data.generatedAt).toLocaleString('ko-KR')}`;
 
-  renderSummary(data.summary, data.targetCoin || 'ETH');
-  renderCommittee(data.committee);
-  renderKimchi(data.kimchi);
+  const coin = data.targetCoin || 'ETH';
+  renderSummary(data.summary, coin);
+  renderCommittee(data.committee, coin);
+  renderKimchi(data.kimchi, coin);
   renderDesks(data.committee.desks || []);
   renderHistoryModel(data.historyModel || {framework:'N/A',features:[],currentInterpretation:'N/A',riskNote:'N/A'});
   renderIndicators(data.indicators || []);
