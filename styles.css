@@ -4,6 +4,11 @@ body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin
 .hero{margin-bottom:16px}.hero h1{margin:0 0 6px;font-size:30px;color:#0b3b5a}
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0 20px}
 .card,.panel{background:#ffffff;border:1px solid #dbeafe;border-radius:14px;padding:14px;box-shadow:0 6px 18px rgba(2,132,199,.08)}
+.panel-committee{background:#f0f9ff;border-color:#bae6fd}
+.panel-kimchi{background:#f0fdf4;border-color:#bbf7d0}
+.panel-desks{background:#fff7ed;border-color:#fed7aa}
+.panel-history{background:#f5f3ff;border-color:#ddd6fe}
+.panel-indicators{background:#f8fafc;border-color:#cbd5e1}
 .card h3{margin:6px 0 2px;font-size:24px;color:#0f172a}
 .badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;color:#fff}
 .g{background:#16a34a}.w{background:#d97706}.r{background:#dc2626}
