@@ -67,29 +67,19 @@ def main():
 
     ndq_chg, spx_chg, dji_chg, fx_chg = chg(ndq), chg(spx), chg(dji), chg(fx)
 
-    # target stock price snapshot (Naver fchart)
-    fchart_url = f"https://fchart.stock.naver.com/siseJson.nhn?symbol={symbol}&requestType=1&timeframe=day"
-    req = urllib.request.Request(fchart_url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=20) as r:
-        raw = r.read().decode("utf-8", errors="ignore")
-    rows = [line.strip() for line in raw.splitlines() if line.strip().startswith('["')]
-    closes = []
-    if rows:
-        parsed = [x.strip('[],').replace('"', '').split(',') for x in rows]
-        for p in parsed:
-            if len(p) >= 5:
-                closes.append(float(p[4].strip()))
-        last = parsed[-1]
-        o = float(last[1].strip())
-        current = float(last[4].strip())
+    # target stock snapshot (Naver item endpoint)
+    item = get_json(f"https://api.stock.naver.com/chart/domestic/item/{symbol}/day")
+    if isinstance(item, list) and item:
+        current = float(item[0].get("closePrice", 0.0))
+        o = float(item[0].get("openPrice", current))
         stock_chg = (current / o - 1) * 100 if o else 0.0
     else:
         current = float(get_json("https://api.stock.naver.com/chart/domestic/index/KOSPI/day")[0]["closePrice"])
         stock_chg = kospi
-        closes = [current]
 
-    stock5 = ((closes[-1] / closes[-6] - 1) * 100) if len(closes) >= 6 else stock_chg
-    stock20 = ((closes[-1] / closes[-21] - 1) * 100) if len(closes) >= 21 else stock_chg
+    # item endpoint can be 1-row in some environments, so keep conservative fallback
+    stock5 = stock_chg
+    stock20 = stock_chg
 
     indicators = []
     def add(name, score, reason, comment):
