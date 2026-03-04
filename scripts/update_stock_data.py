@@ -67,20 +67,44 @@ def main():
 
     ndq_chg, spx_chg, dji_chg, fx_chg = chg(ndq), chg(spx), chg(dji), chg(fx)
 
+    # target stock price snapshot (Naver fchart)
+    fchart_url = f"https://fchart.stock.naver.com/siseJson.nhn?symbol={symbol}&requestType=1&timeframe=day"
+    req = urllib.request.Request(fchart_url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        raw = r.read().decode("utf-8", errors="ignore")
+    rows = [line.strip() for line in raw.splitlines() if line.strip().startswith('["')]
+    closes = []
+    if rows:
+        parsed = [x.strip('[],').replace('"', '').split(',') for x in rows]
+        for p in parsed:
+            if len(p) >= 5:
+                closes.append(float(p[4].strip()))
+        last = parsed[-1]
+        o = float(last[1].strip())
+        current = float(last[4].strip())
+        stock_chg = (current / o - 1) * 100 if o else 0.0
+    else:
+        current = float(get_json("https://api.stock.naver.com/chart/domestic/index/KOSPI/day")[0]["closePrice"])
+        stock_chg = kospi
+        closes = [current]
+
+    stock5 = ((closes[-1] / closes[-6] - 1) * 100) if len(closes) >= 6 else stock_chg
+    stock20 = ((closes[-1] / closes[-21] - 1) * 100) if len(closes) >= 21 else stock_chg
+
     indicators = []
     def add(name, score, reason, comment):
         indicators.append({"name": name, "score": round(score,1), "signal": signal(score), "reason": reason, "comment": comment})
 
-    add("코스피 당일 탄력", clamp(5 + kospi / 2), f"코스피 {kospi:+.2f}%", "국내 대형주 위험선호 체온")
-    add("코스닥 당일 탄력", clamp(5 + kosdaq / 2), f"코스닥 {kosdaq:+.2f}%", "중소형 성장주 체력")
+    add(f"{stock_name} 당일 탄력", clamp(5 + stock_chg / 2), f"{stock_name} {stock_chg:+.2f}%", "개별 종목 당일 모멘텀")
+    add(f"{stock_name} 5일 모멘텀", clamp(5 + stock5 / 3), f"5일 {stock5:+.2f}%", "단기 추세 지속성")
+    add(f"{stock_name} 20일 모멘텀", clamp(5 + stock20 / 5), f"20일 {stock20:+.2f}%", "중기 추세 방향")
+    add("코스피 시장 체온", clamp(5 + kospi / 2), f"코스피 {kospi:+.2f}%", "국내 대형주 위험선호")
+    add("코스닥 시장 체온", clamp(5 + kosdaq / 2), f"코스닥 {kosdaq:+.2f}%", "국내 성장주 심리")
     add("나스닥 전일 흐름", clamp(5 + ndq_chg * 1.2), f"나스닥 {ndq_chg:+.2f}%", "글로벌 성장주 프록시")
     add("S&P500 전일 흐름", clamp(5 + spx_chg * 1.3), f"S&P500 {spx_chg:+.2f}%", "광범위 위험자산 선호")
     add("다우 전일 흐름", clamp(5 + dji_chg * 1.3), f"다우 {dji_chg:+.2f}%", "경기민감주 톤")
     add("원/달러 압력", clamp(5 - fx_chg * 3.0), f"USDKRW {fx_chg:+.2f}%", "원화약세는 외국인 수급 부담")
-    add("한미 동조성", clamp(5 + ((ndq_chg+spx_chg)/2 + (kospi+kosdaq)/2) / 2), f"미국({(ndq_chg+spx_chg)/2:+.2f}%) vs 한국({(kospi+kosdaq)/2:+.2f}%)", "동조 상승이면 추세 신뢰도↑")
-    add("변동성 안정성", clamp(10 - abs(kospi) * 0.6 - abs(kosdaq) * 0.4), f"KOSPI {kospi:+.2f}%, KOSDAQ {kosdaq:+.2f}%", "급락/급등 장세는 보수 대응")
-    add("수급심리 프록시", clamp(5 + (spx_chg + ndq_chg + dji_chg)/3), f"미 증시 평균 {((spx_chg+ndq_chg+dji_chg)/3):+.2f}%", "위험선호 평균값")
-    add("종합 리스크온 점검", clamp(5 + (kospi+kosdaq+ndq_chg+spx_chg)/4), f"혼합 모멘텀 {((kospi+kosdaq+ndq_chg+spx_chg)/4):+.2f}%", "최종 신호 필터")
+    add("종합 리스크온 점검", clamp(5 + (stock_chg+kospi+kosdaq+ndq_chg)/4), f"혼합 모멘텀 {((stock_chg+kospi+kosdaq+ndq_chg)/4):+.2f}%", "최종 신호 필터")
 
     total = round(sum(x["score"] for x in indicators)/len(indicators),1)
 
@@ -88,32 +112,16 @@ def main():
     def desk(name, score, thesis, action):
         desks.append({"name": name, "score": round(score,1), "signal": signal(score), "recommendation": recommendation(score), "thesis": thesis, "action": action})
 
-    desk("시장 분위기 팀", clamp(5 + (kospi+kosdaq)/3), f"국내 지수 합산 {((kospi+kosdaq)/2):+.2f}%", "시장 급변이면 속도 조절")
-    desk("거시/유동성 팀", clamp(5 - fx_chg*2.5), f"원달러 {fx_chg:+.2f}%", "환율 부담 시 방어 섹터 우선")
+    desk("시장 분위기 팀", clamp(5 + (stock_chg+kospi)/3), f"종목/시장 합산 {((stock_chg+kospi)/2):+.2f}%", "시장 급변이면 속도 조절")
+    desk("거시/유동성 팀", clamp(5 - fx_chg*2.5), f"원달러 {fx_chg:+.2f}%", "환율 부담 시 방어 우선")
     desk("해외 연동 팀", clamp(5 + (ndq_chg+spx_chg)/2), f"미국 평균 {((ndq_chg+spx_chg)/2):+.2f}%", "미국 약세면 추격 금지")
-    desk("변동성 관리 팀", clamp(10 - abs(kospi)*0.5 - abs(kosdaq)*0.3), f"국내 변동성 K:{kospi:+.2f}/Q:{kosdaq:+.2f}", "진입 크기 축소/분할")
-    desk("차트/추세 팀", clamp(5 + kospi/2), f"코스피 모멘텀 {kospi:+.2f}%", "양봉 확인형 진입")
-    desk("섹터 순환 팀", clamp(5 + kosdaq/2), f"코스닥 모멘텀 {kosdaq:+.2f}%", "섹터 강약 분리")
-    desk("뉴스/이슈 팀", clamp(5 + (spx_chg+dji_chg)/2), f"미국 뉴스 민감도 프록시 {((spx_chg+dji_chg)/2):+.2f}%", "헤드라인 장세 경계")
-    desk("리스크 관리 팀", clamp(5 - abs(fx_chg)*2 + (ndq_chg>0)), f"환율 {fx_chg:+.2f}, 나스닥 {ndq_chg:+.2f}", "손절/현금비중 우선")
+    desk("변동성 관리 팀", clamp(10 - abs(stock_chg)*0.5 - abs(kosdaq)*0.2), f"종목 {stock_chg:+.2f}% / 코스닥 {kosdaq:+.2f}%", "진입 크기 축소/분할")
+    desk("차트/추세 팀", clamp(5 + stock5/3), f"5일 {stock5:+.2f}%, 20일 {stock20:+.2f}%", "추세 확인형 진입")
+    desk("섹터/시장 팀", clamp(5 + (kospi+kosdaq)/4), f"시장 체온 K:{kospi:+.2f}/Q:{kosdaq:+.2f}%", "섹터 강약 분리")
+    desk("뉴스/이슈 팀", clamp(5 + (spx_chg+dji_chg)/2), f"미국 뉴스 민감도 {((spx_chg+dji_chg)/2):+.2f}%", "헤드라인 장세 경계")
+    desk("리스크 관리 팀", clamp(5 - abs(fx_chg)*2 + (1 if ndq_chg>0 else 0)), f"환율 {fx_chg:+.2f}, 나스닥 {ndq_chg:+.2f}", "손절/현금비중 우선")
 
     committee = round(sum(d["score"] for d in desks)/len(desks),1)
-
-    # target stock price snapshot (Naver fchart)
-    fchart_url = f"https://fchart.stock.naver.com/siseJson.nhn?symbol={symbol}&requestType=1&timeframe=day"
-    req = urllib.request.Request(fchart_url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=20) as r:
-        raw = r.read().decode("utf-8", errors="ignore")
-    # format: [['날짜',...],['YYYYMMDD',open,high,low,close,...], ...]
-    rows = [line.strip() for line in raw.splitlines() if line.strip().startswith('["')]
-    if rows:
-        parts = rows[-1].strip('[],').replace('"', '').split(',')
-        o = float(parts[1].strip())
-        current = float(parts[4].strip())
-        stock_chg = (current / o - 1) * 100 if o else 0.0
-    else:
-        current = float(get_json("https://api.stock.naver.com/chart/domestic/index/KOSPI/day")[0]["closePrice"])
-        stock_chg = kospi
 
     entry1 = round(current * 0.99, 2)
     entry2 = round(current * 0.96, 2)
