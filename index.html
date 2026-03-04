@@ -3,31 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Market Brief Dashboard</title>
+  <title>Crypto Chief Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <main class="wrap">
-    <h1>📊 Market Brief Dashboard</h1>
-    <p id="generatedAt"></p>
+    <header class="hero">
+      <h1>🪙 Crypto Chief Dashboard</h1>
+      <p id="generatedAt">로딩 중...</p>
+    </header>
 
-    <section class="grid" id="summary"></section>
+    <section class="summary" id="summary"></section>
 
-    <section>
-      <h2>주식 지표</h2>
-      <div id="stockIndicators" class="list"></div>
+    <section class="charts">
+      <article class="panel">
+        <h2>Bitcoin (7D)</h2>
+        <canvas id="btcChart"></canvas>
+      </article>
+      <article class="panel">
+        <h2>Ethereum (7D)</h2>
+        <canvas id="ethChart"></canvas>
+      </article>
     </section>
 
-    <section>
-      <h2>코인 지표(10)</h2>
+    <section class="panel">
+      <h2>10지표 상세 분석</h2>
       <div id="cryptoIndicators" class="list"></div>
     </section>
-
-    <section>
-      <h2>새벽 해외 뉴스</h2>
-      <ul id="news"></ul>
-    </section>
   </main>
+
   <script src="app.js"></script>
 </body>
 </html>
