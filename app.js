@@ -96,6 +96,9 @@ async function main() {
   document.getElementById('generatedAt').textContent = `업데이트: ${new Date(data.generatedAt).toLocaleString('ko-KR')}`;
 
   const coin = data.targetCoin || 'ETH';
+  document.title = `${coin} - 투자위원회 의견`;
+  const titleEl = document.querySelector('.hero h1');
+  if (titleEl) titleEl.textContent = `${coin} - 투자위원회 의견`;
   renderSummary(data.summary, coin);
   renderCommittee(data.committee, coin);
   renderKimchi(data.kimchi, coin);

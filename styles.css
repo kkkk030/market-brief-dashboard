@@ -1,25 +1,31 @@
 *{box-sizing:border-box}
-body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:linear-gradient(145deg,#243b55,#2c5364 55%,#3a6073);color:#f8fafc}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:linear-gradient(145deg,#f0f9ff,#ecfeff 45%,#f8fafc);color:#0f172a}
 .wrap{max-width:1100px;margin:0 auto;padding:24px}
-.hero{margin-bottom:16px}.hero h1{margin:0 0 6px;font-size:30px}
+.hero{margin-bottom:16px}.hero h1{margin:0 0 6px;font-size:30px;color:#0b3b5a}
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0 20px}
-.card,.panel{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(4px);border-radius:14px;padding:14px}
-.card h3{margin:6px 0 2px;font-size:24px}
-.badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700}
-.g{background:#15803d}.w{background:#a16207}.r{background:#b91c1c}
+.card,.panel{background:#ffffff;border:1px solid #dbeafe;border-radius:14px;padding:14px;box-shadow:0 6px 18px rgba(2,132,199,.08)}
+.card h3{margin:6px 0 2px;font-size:24px;color:#0f172a}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;color:#fff}
+.g{background:#16a34a}.w{background:#d97706}.r{background:#dc2626}
 .desk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 @media (max-width:1000px){.desk-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:620px){.desk-grid{grid-template-columns:1fr}}
-.list .item,.desk-item{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);margin:10px 0}
+.list .item,.desk-item{padding:12px;border-radius:10px;border:1px solid #bfdbfe;margin:10px 0}
 .item .top,.desk-item .top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
-small{color:#e2e8f0;display:block;line-height:1.45}
+small{color:#334155;display:block;line-height:1.45}
 ul{margin:6px 0 0 18px;padding:0}
 
 /* 전문가 칸 전체 색상 */
-.rec-strong-buy{background:linear-gradient(135deg,#ff6b6b,#ff8787);color:#1f2937}
-.rec-buy{background:linear-gradient(135deg,#ffd166,#ffe08a);color:#1f2937}
-.rec-hold{background:linear-gradient(135deg,#f3f4f6,#e5e7eb);color:#1f2937}
-.rec-sell{background:linear-gradient(135deg,#93c5fd,#60a5fa);color:#0f172a}
-.rec-strong-sell{background:linear-gradient(135deg,#60a5fa,#3b82f6);color:#f8fafc}
-.rec-strong-buy small,.rec-buy small,.rec-hold small{color:#1f2937}
-.rec-sell small,.rec-strong-sell small{color:#e2e8f0}
+.rec-strong-buy{background:linear-gradient(135deg,#fecaca,#fca5a5);border-color:#f87171}
+.rec-buy{background:linear-gradient(135deg,#fde68a,#fcd34d);border-color:#f59e0b}
+.rec-hold{background:linear-gradient(135deg,#e2e8f0,#cbd5e1);border-color:#94a3b8}
+.rec-sell{background:linear-gradient(135deg,#bfdbfe,#93c5fd);border-color:#60a5fa}
+.rec-strong-sell{background:linear-gradient(135deg,#93c5fd,#60a5fa);border-color:#2563eb}
+
+.rec-strong-buy .badge{background:#dc2626}
+.rec-buy .badge{background:#d97706}
+.rec-hold .badge{background:#64748b}
+.rec-sell .badge{background:#2563eb}
+.rec-strong-sell .badge{background:#1d4ed8}
+
+.rec-strong-buy small,.rec-buy small,.rec-hold small,.rec-sell small,.rec-strong-sell small{color:#1e293b}
