@@ -243,6 +243,8 @@ def main():
             {
                 "title": "ETH 스테이킹/수수료 정책 완화 기대",
                 "probability": "중간",
+                "probPct": 55,
+                "eta": "1~3개월",
                 "impact": "강",
                 "direction": "+",
                 "note": "정책 불확실성이 완화되면 장기 보유 심리와 네트워크 락업 수요가 개선될 가능성이 있습니다."
@@ -250,6 +252,8 @@ def main():
             {
                 "title": "ETH/BTC 상대강도 반등 시그널",
                 "probability": "중간" if ethbtc7 > -2 else "낮음",
+                "probPct": 58 if ethbtc7 > -2 else 35,
+                "eta": "1~4주",
                 "impact": "중",
                 "direction": "+",
                 "note": f"현재 ETH/BTC 7D {ethbtc7:+.2f}%로 아직 약하지만, 하락 둔화/양전환 시 알트 선호 재개 신호가 됩니다."
@@ -257,6 +261,8 @@ def main():
             {
                 "title": "파생 과열 완화(중립~약음수 펀딩)",
                 "probability": "높음",
+                "probPct": 72,
+                "eta": "진행중(1~2주 유지 가능)",
                 "impact": "중",
                 "direction": "+",
                 "note": f"평균 펀딩 {favg:+.4f}%로 과열이 낮아 급격한 롱 청산 리스크가 상대적으로 줄어든 상태입니다."
@@ -266,6 +272,8 @@ def main():
             {
                 "title": "규제/정책 발언에 따른 변동성 재확대",
                 "probability": "중간",
+                "probPct": 45,
+                "eta": "상시(헤드라인 발생 즉시)",
                 "impact": "강",
                 "direction": "-",
                 "note": "정책 관련 헤드라인은 단기 방향을 급격히 바꾸므로, 발생 시 추격 금지·리스크 축소가 우선입니다."
@@ -273,6 +281,8 @@ def main():
             {
                 "title": "ETH/BTC 추가 약세 지속",
                 "probability": "높음" if ethbtc7 < 0 else "중간",
+                "probPct": 68 if ethbtc7 < 0 else 48,
+                "eta": "1~2주",
                 "impact": "중",
                 "direction": "-",
                 "note": f"ETH/BTC 7D {ethbtc7:+.2f}% 약세가 이어지면 ETH 단독 랠리 신뢰도가 낮아집니다."
@@ -280,6 +290,8 @@ def main():
             {
                 "title": "레버리지 재팽창 동반 하락",
                 "probability": "중간" if oi_chg > 0 else "낮음",
+                "probPct": 52 if oi_chg > 0 else 30,
+                "eta": "수일~1주",
                 "impact": "강",
                 "direction": "-",
                 "note": f"OI {oi_chg:+.2f}% 변화와 함께 하락이 동반되면 강제청산성 하방이 커질 수 있습니다."

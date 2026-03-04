@@ -116,15 +116,17 @@ function renderDesks(desks) {
 function renderCatalysts(c) {
   const bulls = (c?.bullish || []).map((e) => `
     <div class="item">
-      <div class="top"><b>🟢 ${e.title}</b><span class="badge g">확률 ${e.probability} · 영향 ${e.impact}</span></div>
-      <small>방향: ${e.direction} / 해석: ${e.note}</small>
+      <div class="top"><b>🟢 ${e.title}</b><span class="badge g">확률 ${e.probability}(${e.probPct ?? '-'}%) · 영향 ${e.impact}</span></div>
+      <small>예상 시기: ${e.eta || '미정'} / 방향: ${e.direction}</small>
+      <small>해석: ${e.note}</small>
     </div>
   `).join('');
 
   const bears = (c?.bearish || []).map((e) => `
     <div class="item">
-      <div class="top"><b>🔴 ${e.title}</b><span class="badge r">확률 ${e.probability} · 영향 ${e.impact}</span></div>
-      <small>방향: ${e.direction} / 해석: ${e.note}</small>
+      <div class="top"><b>🔴 ${e.title}</b><span class="badge r">확률 ${e.probability}(${e.probPct ?? '-'}%) · 영향 ${e.impact}</span></div>
+      <small>예상 시기: ${e.eta || '미정'} / 방향: ${e.direction}</small>
+      <small>해석: ${e.note}</small>
     </div>
   `).join('');
 
