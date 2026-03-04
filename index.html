@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crypto Committee Dashboard v2</title>
-  <link rel="stylesheet" href="styles.css?v=4" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
   <main class="wrap">
@@ -26,20 +25,9 @@
       <div id="kimchi" class="summary"></div>
     </section>
 
-    <section class="charts">
-      <article class="panel">
-        <h2>Bitcoin (7D)</h2>
-        <canvas id="btcChart"></canvas>
-      </article>
-      <article class="panel">
-        <h2>Ethereum (7D)</h2>
-        <canvas id="ethChart"></canvas>
-      </article>
-    </section>
-
     <section class="panel">
-      <h2>전문가 그룹 의견</h2>
-      <div id="desks" class="list"></div>
+      <h2>전문가 그룹 의견 (2행 4열)</h2>
+      <div id="desks" class="desk-grid"></div>
     </section>
 
     <section class="panel">
@@ -53,6 +41,6 @@
     </section>
   </main>
 
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

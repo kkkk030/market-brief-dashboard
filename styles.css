@@ -6,9 +6,15 @@
 .card h3{margin:6px 0 2px;font-size:26px}
 .badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700}
 .g{background:#14532d}.w{background:#78350f}.r{background:#7f1d1d}
-.charts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-@media (max-width:900px){.charts{grid-template-columns:1fr}}
-.list .item{padding:12px;border-radius:10px;background:rgba(15,23,42,.85);border:1px solid rgba(148,163,184,.15);margin:10px 0}
-.item .top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
+.desk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:1000px){.desk-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.desk-grid{grid-template-columns:1fr}}
+.list .item,.desk-item{padding:12px;border-radius:10px;background:rgba(15,23,42,.85);border:1px solid rgba(148,163,184,.15);margin:10px 0}
+.item .top,.desk-item .top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
 small{color:#cbd5e1;display:block;line-height:1.4}
 ul{margin:6px 0 0 18px;padding:0}
+.rec-strong-buy{background:#166534}
+.rec-buy{background:#15803d}
+.rec-hold{background:#a16207}
+.rec-sell{background:#b45309}
+.rec-strong-sell{background:#991b1b}

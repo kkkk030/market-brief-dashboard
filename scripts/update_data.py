@@ -24,8 +24,16 @@ def signal(s: float):
     return "청신호" if s >= 6.5 else ("관망" if s >= 3.5 else "적신호")
 
 
-def stance(s: float):
-    return "매수" if s >= 6.5 else ("관망" if s >= 3.5 else "축소")
+def recommendation(s: float):
+    if s >= 8.0:
+        return "매수적극추천"
+    if s >= 6.5:
+        return "매수추천"
+    if s >= 4.5:
+        return "관망"
+    if s >= 3.0:
+        return "매도추천"
+    return "매도적극추천"
 
 
 def pct(a: float, b: float):
@@ -131,7 +139,7 @@ def main():
                 "name": name,
                 "score": round(score, 1),
                 "signal": signal(score),
-                "stance": stance(score),
+                "recommendation": recommendation(score),
                 "thesis": thesis,
                 "action": action,
             }
@@ -219,6 +227,13 @@ def main():
         "확인형 분할매수" if committee_score >= 5.0 else "관망 및 비중관리"
     )
 
+    entry1 = round(up_e * 0.98)
+    entry2 = round(up_e * 0.94)
+    entry3 = round(up_e * 0.90)
+    stop_loss = round(up_e * 0.86)
+    take1 = round(up_e * 1.08)
+    take2 = round(up_e * 1.14)
+
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "targetCoin": "ETH",
@@ -232,7 +247,15 @@ def main():
             "score": committee_score,
             "signal": signal(committee_score),
             "decision": final_decision,
-            "entryPlan": ["1차 20%: 현재가 근처 테스트", "2차 30%: 조정 재확인", "3차 50%: ETH/BTC 반등 확인 후"],
+            "tradePlan": {
+                "currentPrice": up_e,
+                "entry1": {"price": entry1, "allocation": "20%"},
+                "entry2": {"price": entry2, "allocation": "30%"},
+                "entry3": {"price": entry3, "allocation": "50%"},
+                "stopLoss": stop_loss,
+                "takeProfit1": take1,
+                "takeProfit2": take2,
+            },
             "invalidations": ["ETH/BTC 추가 하락 지속", "BTC 급락 + OI 급증 동반"],
             "desks": desks,
         },
@@ -244,7 +267,6 @@ def main():
             "btcPrem": kim_b,
             "ethPrem": kim_e,
         },
-        "charts": {"btc": btc_chart, "eth": eth_chart},
         "indicators": indicators,
     }
 

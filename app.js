@@ -1,28 +1,17 @@
 const color = (s) => (s === '청신호' ? 'g' : s === '관망' ? 'w' : 'r');
 
+const recClass = (r) => {
+  if (r === '매수적극추천') return 'rec-strong-buy';
+  if (r === '매수추천') return 'rec-buy';
+  if (r === '관망') return 'rec-hold';
+  if (r === '매도추천') return 'rec-sell';
+  return 'rec-strong-sell';
+};
+
 async function loadData() {
   const r = await fetch('./data/dashboard_data.json?v=' + Date.now());
   if (!r.ok) throw new Error('대시보드 데이터 로드 실패');
   return r.json();
-}
-
-function drawChart(canvasId, label, points, colorHex) {
-  const ctx = document.getElementById(canvasId);
-  if (!ctx || !points?.length) return;
-  const labels = points.map((p) => new Date(p[0]).toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric' }));
-  const values = points.map((p) => p[1]);
-  new Chart(ctx, {
-    type: 'line',
-    data: { labels, datasets: [{ label, data: values, borderColor: colorHex, tension: 0.2, pointRadius: 0 }] },
-    options: {
-      responsive: true,
-      plugins: { legend: { labels: { color: '#cbd5e1' } } },
-      scales: {
-        x: { ticks: { color: '#94a3b8', maxTicksLimit: 8 }, grid: { color: 'rgba(148,163,184,.15)' } },
-        y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,.15)' } }
-      }
-    }
-  });
 }
 
 function renderSummary(s, coin) {
@@ -34,10 +23,19 @@ function renderSummary(s, coin) {
 }
 
 function renderCommittee(c) {
+  const t = c.tradePlan;
+  const fmt = (n) => Number(n).toLocaleString('ko-KR');
   document.getElementById('committeeTop').innerHTML = `
     <div class="card"><div>위원회 점수</div><h3>${c.score}/10</h3><span class="badge ${color(c.signal)}">${c.signal}</span></div>
     <div class="card"><div>최종 의견</div><h3>${c.decision}</h3></div>
-    <div class="card"><div>진입 플랜</div><small>${c.entryPlan.join('<br/>')}</small></div>
+    <div class="card"><div>종합 매매전략</div>
+      <small>현재가: ${fmt(t.currentPrice)}원</small>
+      <small>1차 매수: ${fmt(t.entry1.price)}원 (${t.entry1.allocation})</small>
+      <small>2차 매수: ${fmt(t.entry2.price)}원 (${t.entry2.allocation})</small>
+      <small>3차 매수: ${fmt(t.entry3.price)}원 (${t.entry3.allocation})</small>
+      <small>손절: ${fmt(t.stopLoss)}원</small>
+      <small>익절 1차: ${fmt(t.takeProfit1)}원 / 2차: ${fmt(t.takeProfit2)}원</small>
+    </div>
   `;
 }
 
@@ -53,8 +51,9 @@ function renderKimchi(k) {
 
 function renderDesks(desks) {
   document.getElementById('desks').innerHTML = desks.map((d) => `
-    <div class="item">
-      <div class="top"><b>${d.name}</b><span class="badge ${color(d.signal)}">${d.score}/10 · ${d.signal} · ${d.stance}</span></div>
+    <div class="desk-item">
+      <div class="top"><b>${d.name}</b><span class="badge ${recClass(d.recommendation)}">${d.recommendation}</span></div>
+      <small>점수: ${d.score}/10 (${d.signal})</small>
       <small>핵심 논리: ${d.thesis}</small>
       <small>행동 제안: ${d.action}</small>
     </div>
@@ -90,9 +89,6 @@ async function main() {
   renderDesks(data.committee.desks || []);
   renderHistory(data.historyComparisons || []);
   renderIndicators(data.indicators || []);
-
-  drawChart('btcChart', 'BTC/USD', data.charts.btc, '#f59e0b');
-  drawChart('ethChart', 'ETH/USD', data.charts.eth, '#60a5fa');
 }
 
 main().catch((e) => {
