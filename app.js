@@ -40,12 +40,21 @@ function renderCommittee(c, coin) {
 }
 
 function renderKimchi(k, coin) {
-  const fmt = (n) => Number(n).toLocaleString('ko-KR', { maximumFractionDigits: 0 });
-  const chip = (v) => (v >= 0 ? `+${v.toFixed(2)}%` : `${v.toFixed(2)}%`);
+  const fmt = (n) => Number(n ?? 0).toLocaleString('ko-KR', { maximumFractionDigits: 0 });
+  const chip = (v) => {
+    const n = Number(v ?? 0);
+    return n >= 0 ? `+${n.toFixed(2)}%` : `${n.toFixed(2)}%`;
+  };
+
+  const coinKrw = k.coinKrw ?? k.ethKrw;
+  const coinPrem = k.coinPrem ?? k.ethPrem;
+  const usdkrw = Number(k.usdkrw ?? 0);
+  const btcPrem = Number(k.btcPrem ?? 0);
+
   document.getElementById('kimchi').innerHTML = `
-    <div class="card"><div>USD/KRW</div><h3>${k.usdkrw.toFixed(2)}</h3></div>
-    <div class="card"><div>BTC 업비트</div><h3>${fmt(k.btcKrw)}원</h3><span class="badge ${k.btcPrem >= 0 ? 'w' : 'g'}">김프 ${chip(k.btcPrem)}</span></div>
-    <div class="card"><div>${coin} 업비트</div><h3>${fmt(k.coinKrw)}원</h3><span class="badge ${k.coinPrem >= 0 ? 'w' : 'g'}">김프 ${chip(k.coinPrem)}</span></div>
+    <div class="card"><div>USD/KRW</div><h3>${usdkrw.toFixed(2)}</h3></div>
+    <div class="card"><div>BTC 업비트</div><h3>${fmt(k.btcKrw)}원</h3><span class="badge ${btcPrem >= 0 ? 'w' : 'g'}">김프 ${chip(btcPrem)}</span></div>
+    <div class="card"><div>${coin} 업비트</div><h3>${fmt(coinKrw)}원</h3><span class="badge ${Number(coinPrem ?? 0) >= 0 ? 'w' : 'g'}">김프 ${chip(coinPrem)}</span></div>
   `;
 }
 
