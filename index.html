@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Market Brief Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>📊 Market Brief Dashboard</h1>
+    <p id="generatedAt"></p>
+
+    <section class="grid" id="summary"></section>
+
+    <section>
+      <h2>주식 지표</h2>
+      <div id="stockIndicators" class="list"></div>
+    </section>
+
+    <section>
+      <h2>코인 지표(10)</h2>
+      <div id="cryptoIndicators" class="list"></div>
+    </section>
+
+    <section>
+      <h2>새벽 해외 뉴스</h2>
+      <ul id="news"></ul>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

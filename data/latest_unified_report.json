@@ -1,0 +1,238 @@
+{
+  "generatedAt": "2026-03-04T13:43:31.655900+09:00",
+  "summary": {
+    "stockScore": 2.3,
+    "stockSignal": "적신호",
+    "cryptoScore": 5.7,
+    "cryptoSignal": "관망",
+    "totalScore": 4.0,
+    "totalSignal": "관망"
+  },
+  "stocks": {
+    "indicators": [
+      {
+        "name": "KOSPI intraday momentum",
+        "value": -9.64,
+        "score": 2.0,
+        "comment": "코스피 당일 -9.64%"
+      },
+      {
+        "name": "KOSDAQ intraday momentum",
+        "value": -10.64,
+        "score": 2.0,
+        "comment": "코스닥 당일 -10.64%"
+      },
+      {
+        "name": "NASDAQ daily momentum",
+        "value": -1.0205786136096573,
+        "score": 2.0,
+        "comment": "나스닥 전일대비 -1.02%"
+      },
+      {
+        "name": "S&P500 daily momentum",
+        "value": -0.9443997198334109,
+        "score": 3.6,
+        "comment": "S&P500 전일대비 -0.94%"
+      },
+      {
+        "name": "USDKRW pressure",
+        "value": 1.1346898696197538,
+        "score": 2.0,
+        "comment": "달러원 전일대비 +1.13% (상승=리스크오프)"
+      }
+    ]
+  },
+  "crypto": {
+    "timestamp": "2026-03-04T12:24:34.997677+09:00",
+    "date": "2026-03-04",
+    "time": "12:24",
+    "indicators": [
+      {
+        "name": "유동성(스테이블 30D)",
+        "score": 6.8,
+        "signal": "청신호",
+        "reason": "USDT -0.80%, USDC +8.09%, 평균 +3.64%",
+        "comment": "스테이블 순증이면 매수 대기자금이 남아있다는 뜻. 급락장 완화 신호로 해석."
+      },
+      {
+        "name": "BTC 도미넌스 구조",
+        "score": 7.2,
+        "signal": "청신호",
+        "reason": "BTC.D 56.71%",
+        "comment": "도미넌스가 높으면 알트 순환이 약함. ETH 단독 포지션에는 불리한 구조."
+      },
+      {
+        "name": "ETH/BTC 상대강도(7D)",
+        "score": 0.5,
+        "signal": "적신호",
+        "reason": "ETH/BTC 7D -4.33%, 30D -2.85%",
+        "comment": "ETH가 BTC 대비 약하면 ETH 보유자 실적이 상대적으로 악화. 회복 전까진 방어 우선."
+      },
+      {
+        "name": "크립토 총시총 모멘텀(24H)",
+        "score": 4.4,
+        "signal": "관망",
+        "reason": "Total MCap 24H -0.37%",
+        "comment": "시장 전체의 체온 체크 지표. 음수면 반등 신뢰도 낮고, 양수 확장 시 추세 신뢰도 개선."
+      },
+      {
+        "name": "펀딩 과열도(BTC/ETH)",
+        "score": 9.3,
+        "signal": "청신호",
+        "reason": "평균 펀딩 -0.0009% (BTC +0.0010 / ETH -0.0028)",
+        "comment": "펀딩이 과열권이면 롱 청산 리스크 급증. 중립권이면 급락 트리거 확률이 낮아짐."
+      },
+      {
+        "name": "미결제약정 안정성(OI)",
+        "score": 6.9,
+        "signal": "청신호",
+        "reason": "BTC OI 일변화 -4.45%",
+        "comment": "OI 급증은 과열, 급감은 포지션 정리. 급격한 변화일수록 변동성 확대에 대비 필요."
+      },
+      {
+        "name": "테이커 수급 균형",
+        "score": 8.4,
+        "signal": "청신호",
+        "reason": "매수/매도 비율 1.016, 전일대비 -3.23%",
+        "comment": "1.0~1.08 근처면 균형적. 과도한 한쪽 쏠림은 되돌림/청산 리스크를 키움."
+      },
+      {
+        "name": "시장 심리(Fear&Greed)",
+        "score": 1.0,
+        "signal": "적신호",
+        "reason": "F&G 10/100",
+        "comment": "극단적 공포 구간은 변동성 확대와 가짜 반등 빈도가 높아 확인매매가 유리."
+      },
+      {
+        "name": "BTC 추세 모멘텀(7D)",
+        "score": 6.8,
+        "signal": "청신호",
+        "reason": "BTC 7D +3.58%",
+        "comment": "BTC가 플러스 추세면 시장 코어는 유지. 알트 반등의 전제 조건 역할."
+      },
+      {
+        "name": "ETH 절대+상대 모멘텀",
+        "score": 5.3,
+        "signal": "관망",
+        "reason": "ETH 7D +2.83%, ETH 30D -12.57%, ETH/BTC 7D -4.33%",
+        "comment": "ETH 절대수익과 상대강도를 함께 반영. 둘 중 하나라도 약하면 추세 신뢰도 제한."
+      }
+    ],
+    "total_score": 5.7,
+    "total_signal": "관망"
+  },
+  "overnight": {
+    "timestamp": "2026-03-04T12:42:10.155439+09:00",
+    "quotes": [
+      {
+        "symbol": "^ndq",
+        "name": "NASDAQ 100",
+        "date": "2026-03-03",
+        "time": "EOD",
+        "prev_close": 22748.86,
+        "close": 22516.69,
+        "chg_pct": -1.0205786136096573
+      },
+      {
+        "symbol": "^spx",
+        "name": "S&P 500",
+        "date": "2026-03-03",
+        "time": "EOD",
+        "prev_close": 6881.62,
+        "close": 6816.63,
+        "chg_pct": -0.9443997198334109
+      },
+      {
+        "symbol": "^dji",
+        "name": "DOW JONES",
+        "date": "2026-03-03",
+        "time": "EOD",
+        "prev_close": 48904.78,
+        "close": 48501.27,
+        "chg_pct": -0.8250931708516096
+      },
+      {
+        "symbol": "btc.v",
+        "name": "BTC/USD",
+        "date": "2026-03-04",
+        "time": "EOD",
+        "prev_close": 68340.87,
+        "close": 67519.28,
+        "chg_pct": -1.202194236040599
+      },
+      {
+        "symbol": "eth.v",
+        "name": "ETH/USD",
+        "date": "2026-03-04",
+        "time": "EOD",
+        "prev_close": 1983.697,
+        "close": 1954.01,
+        "chg_pct": -1.4965491201529235
+      }
+    ],
+    "stock_news": [
+      {
+        "title": "U.S. stocks rebound from sharp losses, while oil prices leap on worries about Iran war - PBS",
+        "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPYi1QeXpCMzg0VWVQSVZPaGRWdU4wNmNpSHJIY3B1Wk5hTG1Ccl9RTnFXQm1DdE94Z2YzVm5JRnlJbDZBSzllaF9nSm5tcktyWXZSZmx3MTJxYXBDY29HNXBHWFo1em9xWFBLQW5jUDl4dDhRZDA4d2NwNDlBdm1jaXU1NVoyUU1lQ2NTdG9fZ0dxbjFpSWpxRXZfNExzcGY1OUx4bXVOYUFrNFU5MXp4ZFZseXdkNjBOaktoblhB0gHDAUFVX3lxTE1hYUpQekd0RllUY1B2ajNGWGJoWVFDNU9Ea0VwV1VjeTJONUZFNGtWaDd4bFE5cTNJX2FTRzFVT1E1THdDejl5ZUI2aVZqeTZCdDlPVUhlVTdoNW5hcVlyLTNDUDgxaHFZV2RZa1lBT0lJTXpqTV9pTlJ3c2hjSTFOS0M0azJUakVBb09MWTl5V1lXdEZqS3pzeTM0dEhLMGVxZnMwMlZtUHNyUXBlcGotaWFUVHBiaUtJZDRGUGRMdmg3UQ?oc=5",
+        "pubDate": "Mon, 02 Mar 2026 21:37:55 GMT"
+      },
+      {
+        "title": "These S&P 500 stocks are falling the hardest on Tuesday - MarketWatch",
+        "link": "https://news.google.com/rss/articles/CBMipANBVV95cUxQV1ZRaVNfRnNGbGlrZFY4aDNLSjRWeFdGaHRfUmVJazlib0dZbXgxZ3V0ak9kVTk5eWJSNGl2VGp6ZDdlTjlfNktCbU5zdGlndHdKclJkMFBCR1RLRVU0WTVFeElDaUgyeDd1UHdsQkV0bE9aVGN5ZktheF84aWJOS0ZVSXB0WVdKVnJJVi1NekMzUUJJVVpYN2JhTWYyYlZDekdCTTJMQVhlRXF1ejJSYTRxN3RNQmUwb1BfWDJCTERRT1pfSDJvSGtVaHY1YjBKMjhtYmt5NDNqbUVqc2daVVpkZHhISWVCSWQ3NlBoOTQ2OHVXQ1JkTUhVWU16cV94bzBIY3VWQTZvTVJTM2tTdGhqUFJRODZBU0hXZFRmT05rbEZWWmhUeWk1b3BIbWs4TnQ2Ukx6XzRBUDdwWlNsc0szbTNYYUxINzhvS3ZLWEJUVjR5MEt4WERudFVoT1AwaUpMMTZvVnlyaHR1bjFwUVBURUI3N0NlcU5rV3REcC1VcXNkbUxqaU9CV0M0ajRkeUJxeFZsRllJTEVBRlkzdFBTUzI?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 15:41:00 GMT"
+      },
+      {
+        "title": "Oil surges, stocks tumble as fears of prolonged Iran war hit markets - NBC News",
+        "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQVHEwelRZamtOTEhPVGxFVkYtcTBSTFJJRndEbjFia0NvdHdGZE1JbDljMnMzRlRzblFSVkVNX1BmTDhPdFpSMzFSbWtvalN4T0xMclV2eGxEdkt6MVBLVUtPcjZsa2hBLTB3OGtJN0RnWDZ0SmVjWWJzUXBKd2RJMWpiaDhFcFNWS1VKbjN4QWZqWlFJaXpvUA?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 21:08:03 GMT"
+      },
+      {
+        "title": "US stocks end lower amid Iran war, Trump's Hormuz protection pledge - Anadolu Ajansı",
+        "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNRnVBWjA0NnpmX0hySXB3RFNaRUpqZGN5cl9nV2luWlhick9QZ3g0TUlxaUsxRWliODhNWlBIcFF3MXFBUF9PYUVaWGhYUnZUMEU0ckh3MmQyUmNYWmtsWEdIa3Jvd0tSQ00xaDhyd2haOXlHUjRuNEhKSGtGckJKbWV4b2MzQThOMENmdDVoNklFYXFLNHllVU96T1ZJaGZXNm1mUGpTbXpIUQ?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 22:58:30 GMT"
+      },
+      {
+        "title": "Why stocks are acting so weird about a spiraling war with Iran - CNN",
+        "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1GX21wNUtYNHhMU21Ud2ZSZkkwSHQ3VXVBcE9hSGNoOUZ6ZVBLdHlZcGVZMVhHYXcyU19mZVZ2M3oxb25tZXZKM3p0VTAxWTBrRkRfYzdJOGVlUTJXS1JFZnk2VjFNQldlOUNENGxvbzk?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 10:00:33 GMT"
+      },
+      {
+        "title": "Why didn't US avert stock market Dow Jones, S&P 500 and Nasdaq crash today like UAE? Analysts insights, ma - The Economic Times",
+        "link": "https://news.google.com/rss/articles/CBMixAJBVV95cUxQM0hoVjB4R3haRkNYNi1BckY5bkhXeWhpb3M3UVBLQ3psbUNDbzJQcURGTXVFMFdXbE5yZ2VhLVpDVVF1SWhzXzB2RXVzam5sLUtOU2E5cmM3T3UwdFJyWmUxWkVmSXFOSDU3eGpmajMzMjkwR3VyTWtKNU1CQ0JiN19WbktaV1c2M2hDU3dIbDU0NXV6MGtsQkRvREcyelFQY0VJUGc3R0kzX3ZBSm56c1N1ZVR4ZnR3dk4zaW5PVEM4MGRyM2dHR3N0ZmwyU2I0UFRmTjZPd2JiRGdDbG8wMEFVcldDQlFZMFcwajRvQ3NvNVEwT0dWWEpGbGFmdWtXeE1DbVNjYUVfYnZoeU9aeDFnaFFIVmZlbjgtWnhDRVhndlEzSEFqS3VtQnhpZkZuQ09rLW00TkdOcjl3SmI1akFaTW7SAcoCQVVfeXFMT2Rzb21QbmZ2WUFDeTZESWNlOHE3Y3RDRVhCa1NNZWdwYld3N042eTZfcklvbVVwZjlkZDQwX1MxcENHaUt0THhQTzloMDhIWktCMUJIZFo1MTViLWtQY2RrTzhacmtDTW9NRm56SU93THBiTS1icy1OT1FzemVpR2gyTjZSM3c5enhlVDE1dGM4UWVqWWpDUFM1RUlVVVJEXzJuMzdOSmtJZlJCOWRtTXZXN2hCOGVKVnRlS2pMVWhEaUtnMGk0VlNKRGxqR2dwMWxWUEFIM0t1TDdTQy1uR2JKakd5c3NSWUN4MTJCdTRFa1YySThPQUNYRERqai1aQ0JjVm9uNzYyRG1veDB2bjhhNEJpOU5lMXRQTG01N2oxWGRhQ0V2YTVDaDMzNS1LdktFZm8xWEJsdnFKc1hCeS1JclRPSm5ia09n?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 18:48:07 GMT"
+      }
+    ],
+    "crypto_news": [
+      {
+        "title": "Bitcoin price rescued by ‘boomer’ ETF investors, says analyst - dlnews.com",
+        "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQdm9KNFdkS3lzQkxMV3FoQTRndnJYTGNkUTBkcXEwc1hKb3gySXktWEV0bkRvcHNtQlZqYi1YbUhYY2ZhajZCVmZUakxEZmh6di1Yd3QzakVIMWVRNlNYc2luVGh2aFZGX0VuWldnQ3E4anhiWmc1SGhJQXhEUHg1MGVBR1d4VnVfU2t1N0pwTE1LcXV5T2FhMkwtRjV2bEU?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 21:30:06 GMT"
+      },
+      {
+        "title": "Protected Bitcoin ETFs: Prepared for Crypto Volatility - ETF Trends",
+        "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOOUl1aE9wRExOUmprdkhSdjBZb1hJVzhlbmV4NjYtd3lGMmJkQWF1NUU1TV9tbnhfdDhKSmI5RWVMT0pfM0Rac3NoWWIxUUl4YzEzVU8xT0xSRll4UVJrcHl5Z3F6MzBHLUFRLU9VY2ptMm1TbFl6X1ZLUTdjZERzWlc2cWxPazdTYjFoanRIdGktQUNsZEFoSnNia0loV3ZpbmRn?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 17:33:21 GMT"
+      },
+      {
+        "title": "Harvard Adjusts Tech Portfolio, Loses 35% in 2 Months on Ethereum ETF Bet - ai-cio.com",
+        "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNN29QemRUNDBlQkZpWWg1SjBWSGR1Qm9UN1BTQ0c3eGJ3WWdFWVBRUjBVa095R2lSUk1wZFozaUY5YTRzMUExOFQwMDBkc0tqVm9hWDRMTkpKSVpzc2NPOXN1TUJJVGlXdk9xTG4xVl9yeE5qYVBtdFRSN3ZZdTg5M3ZNLTlvUEpRSmRZMldPM2Z2WmhKY3dFb2lhT0twZmlEc1E?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 16:35:08 GMT"
+      },
+      {
+        "title": "ETF Flows Boost Cryptos, Bitcoin Hits $70k - RTTNews",
+        "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQN3JUbHA3MlVwQjg3ck9PckZGTGpZLTROYzQtanduTVRuSTVwZVItektaLW5XYUFhWXFGRDV2a09SekdDTk5tMW1oVGtISDh2dTFtWmxidWV5NEZWdTRhT0dwU2RIMUpGcmRTTjY1dWdyNEhKMW9vMUY3ajZIeGhZMEE4NNIBiAFBVV95cUxQR29zOHRoWXJHeFc5alY3eUJpTm5pa2dMX0ZJYW05dEUwVjlocnJHdHUwVWF1VHhXaU5VV3lHQzJJUEpVdmJuV25URGJKMlk1Y2dtNGxKQmFRdGE0ZlFwQ1FxdzJuMzh3Q2VTbjhpbjhtVjYzc3BhLXpYYmRCLVhLWHJmSVR1RHRs?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 14:34:00 GMT"
+      },
+      {
+        "title": "Better Buy in 2026: Bitcoin or a Broad-Market ETF? The Answer Couldn't Be Clearer for Long-Term Investors - The Motley Fool",
+        "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQWUw1eDFsbFl0MFZJVE8tUjZoZEYzbzJRWDdHN1RzMnBNaUs4TkVZRThIelRTa3B6aDdYeHp3eWVUbGNwdno3enpXRzhFTDJlTHV0WTBPejRLbGdDdVJpN08wS0tGcmRYek5hemhYamY4cVFpaHV0bWEtblhQQWkwLVdYcWJ3WXJaaHdHUG45MXRuWl9CeldEZw?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 09:30:00 GMT"
+      },
+      {
+        "title": "Crypto regulation: key updates and developments (4 Feb – 3 Mar) - Lexology",
+        "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQTms4dXVkbVUwODF5bDJfNXFKV0IycmhuT1NaNUJ0VGt6LVZ3YlFrenhwcVpOaUpBMjRTcjA4NkVfdTh0QXFobTUyVlk0b0dhQ3c0V2xVcVZtbTd3ZzVFYjdsUXNWYm1lRXk2R0J0ZS01b21FZmh1aVZjUEtMYVlEUDVTZkNiRlRfclVUQkJZckJjdmdEV3M2VndHUQ?oc=5",
+        "pubDate": "Tue, 03 Mar 2026 15:08:28 GMT"
+      }
+    ]
+  }
+}
