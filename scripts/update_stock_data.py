@@ -5,6 +5,7 @@ import csv
 import io
 import json
 import urllib.request
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -46,6 +47,9 @@ def recommendation(s):
 
 
 def main():
+    symbol = sys.argv[1] if len(sys.argv) > 1 else "005930"
+    stock_name = sys.argv[2] if len(sys.argv) > 2 else "KOSPI"
+
     poll = get_json("https://polling.finance.naver.com/api/realtime?query=SERVICE_INDEX:KOSPI,KOSDAQ&_")
     datas = poll["result"]["areas"][0]["datas"]
     d = {x["cd"]: x for x in datas}
@@ -95,7 +99,22 @@ def main():
 
     committee = round(sum(d["score"] for d in desks)/len(desks),1)
 
-    current = float(get_json("https://api.stock.naver.com/chart/domestic/index/KOSPI/day")[0]["closePrice"])
+    # target stock price snapshot (Naver fchart)
+    fchart_url = f"https://fchart.stock.naver.com/siseJson.nhn?symbol={symbol}&requestType=1&timeframe=day"
+    req = urllib.request.Request(fchart_url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        raw = r.read().decode("utf-8", errors="ignore")
+    # format: [['날짜',...],['YYYYMMDD',open,high,low,close,...], ...]
+    rows = [line.strip() for line in raw.splitlines() if line.strip().startswith('["')]
+    if rows:
+        parts = rows[-1].strip('[],').replace('"', '').split(',')
+        o = float(parts[1].strip())
+        current = float(parts[4].strip())
+        stock_chg = (current / o - 1) * 100 if o else 0.0
+    else:
+        current = float(get_json("https://api.stock.naver.com/chart/domestic/index/KOSPI/day")[0]["closePrice"])
+        stock_chg = kospi
+
     entry1 = round(current * 0.99, 2)
     entry2 = round(current * 0.96, 2)
     entry3 = round(current * 0.93, 2)
@@ -105,7 +124,7 @@ def main():
 
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "targetCoin": "KOSPI",
+        "targetCoin": stock_name,
         "summary": {"total": total, "index100": round(total*10,0), "signal": signal(total), "green": len([x for x in indicators if x["signal"]=="청신호"]), "red": len([x for x in indicators if x["signal"]=="적신호"])},
         "committee": {
             "score": committee,
@@ -121,7 +140,7 @@ def main():
             "currentInterpretation": "현재는 급변동 구간에서 회복 시도 국면으로, 추격보다 확인형 분할 진입이 합리적입니다.",
             "riskNote": "환율 재급등 + 미국 약세 동반 시 방어 모드로 즉시 전환 필요"
         },
-        "kimchi": {"usdkrw": float(fx[-1]["Close"]), "btcKrw": float(ndq[-1]["Close"]), "coinKrw": float(current), "btcPrem": ndq_chg, "coinPrem": kospi},
+        "kimchi": {"usdkrw": float(fx[-1]["Close"]), "btcKrw": float(ndq[-1]["Close"]), "coinKrw": float(current), "btcPrem": ndq_chg, "coinPrem": stock_chg},
         "indicators": indicators,
     }
 
