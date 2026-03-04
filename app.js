@@ -113,6 +113,28 @@ function renderDesks(desks) {
   `}).join('');
 }
 
+function renderCatalysts(c) {
+  const bulls = (c?.bullish || []).map((e) => `
+    <div class="item">
+      <div class="top"><b>🟢 ${e.title}</b><span class="badge g">확률 ${e.probability} · 영향 ${e.impact}</span></div>
+      <small>방향: ${e.direction} / 해석: ${e.note}</small>
+    </div>
+  `).join('');
+
+  const bears = (c?.bearish || []).map((e) => `
+    <div class="item">
+      <div class="top"><b>🔴 ${e.title}</b><span class="badge r">확률 ${e.probability} · 영향 ${e.impact}</span></div>
+      <small>방향: ${e.direction} / 해석: ${e.note}</small>
+    </div>
+  `).join('');
+
+  document.getElementById('catalysts').innerHTML = `
+    ${bulls}
+    ${bears}
+    <div class="item"><div class="top"><b>🧭 코인실장 한줄 의견</b><span class="badge w">하우스뷰</span></div><small>${c?.houseView || '이벤트 확인형 대응이 필요합니다.'}</small></div>
+  `;
+}
+
 function renderHistoryModel(h) {
   document.getElementById('historyModel').innerHTML = `
     <div class="item">
@@ -147,6 +169,7 @@ async function main() {
   renderCommittee(data.committee, coin);
   renderKimchi(data.kimchi, coin);
   renderDesks(data.committee.desks || []);
+  renderCatalysts(data.catalysts || {});
   renderHistoryModel(data.historyModel || {framework:'N/A',features:[],currentInterpretation:'N/A',riskNote:'N/A'});
   renderIndicators(data.indicators || []);
 }

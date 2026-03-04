@@ -1,34 +1,34 @@
 {
-  "generatedAt": "2026-03-04T07:06:29.416997+00:00",
+  "generatedAt": "2026-03-04T08:06:41.762097+00:00",
   "targetCoin": "ETH",
   "summary": {
-    "total": 4.9,
-    "index100": 49.0,
+    "total": 5.2,
+    "index100": 52.0,
     "signal": "관망",
     "green": 3,
     "red": 3
   },
   "committee": {
-    "score": 4.3,
+    "score": 4.5,
     "signal": "관망",
     "decision": "관망 및 비중관리",
     "tradePlan": {
-      "currentPrice": 2895000.0,
+      "currentPrice": 2940000.0,
       "entry1": {
-        "price": 2837100,
+        "price": 2881200,
         "allocation": "20%"
       },
       "entry2": {
-        "price": 2721300,
+        "price": 2763600,
         "allocation": "30%"
       },
       "entry3": {
-        "price": 2605500,
+        "price": 2646000,
         "allocation": "50%"
       },
-      "stopLoss": 2489700,
-      "takeProfit1": 3126600,
-      "takeProfit2": 3300300
+      "stopLoss": 2528400,
+      "takeProfit1": 3175200,
+      "takeProfit2": 3351600
     },
     "invalidations": [
       "ETH/BTC 추가 하락 지속",
@@ -37,50 +37,50 @@
     "desks": [
       {
         "name": "Regime Desk",
-        "score": 2.9,
+        "score": 3.3,
         "signal": "적신호",
-        "recommendation": "방어 최우선",
+        "recommendation": "비중 축소 고려",
         "thesis": "시장 국면은 회복 초입 성격. Fear&Greed=10",
         "action": "공격 진입보다 확인형 분할"
       },
       {
         "name": "Macro Liquidity Desk",
-        "score": 5.2,
+        "score": 5.1,
         "signal": "관망",
         "recommendation": "관망/대기",
-        "thesis": "펀딩 -0.0039%, BTC 김프 -0.91%",
+        "thesis": "펀딩 -0.0020%, BTC 김프 -1.09%",
         "action": "유동성 과열은 낮아 추격보다 눌림 대기"
       },
       {
         "name": "On-chain/Flow Desk",
-        "score": 4.0,
-        "signal": "관망",
+        "score": 3.4,
+        "signal": "적신호",
         "recommendation": "비중 축소 고려",
-        "thesis": "ETH 김프 -0.85% (역프면 국내 과열 완화)",
+        "thesis": "ETH 김프 -1.09% (역프면 국내 과열 완화)",
         "action": "역프 구간은 단기 반등 가능성 체크"
       },
       {
         "name": "Derivatives Desk",
-        "score": 8.0,
+        "score": 8.3,
         "signal": "청신호",
         "recommendation": "공격 진입 가능",
-        "thesis": "펀딩 -0.0039%, ETH OI -5.97%",
+        "thesis": "펀딩 -0.0020%, ETH OI -5.97%",
         "action": "과열 낮음. 다만 OI 급변시 레버리지 축소"
       },
       {
         "name": "Technical Structure Desk",
-        "score": 1.1,
+        "score": 2.1,
         "signal": "적신호",
         "recommendation": "방어 최우선",
-        "thesis": "ETH 7D -3.94%, 30D -15.79%",
+        "thesis": "ETH 7D -2.22%, 30D -14.28%",
         "action": "단기 반등보다 추세 확인형 매수"
       },
       {
         "name": "Relative Value Desk",
-        "score": 1.2,
+        "score": 1.4,
         "signal": "적신호",
         "recommendation": "방어 최우선",
-        "thesis": "ETH/BTC 7D -4.56%",
+        "thesis": "ETH/BTC 7D -4.33%",
         "action": "ETH/BTC 반등 전까지 ETH 비중 과확대 금지"
       },
       {
@@ -93,10 +93,10 @@
       },
       {
         "name": "Risk Control Desk",
-        "score": 9.0,
+        "score": 9.2,
         "signal": "청신호",
         "recommendation": "공격 진입 가능",
-        "thesis": "테이커비 0.979, ETH7D -3.94%",
+        "thesis": "테이커비 0.979, ETH7D -2.22%",
         "action": "분할진입 20/30/50, 무효화 조건 엄수"
       }
     ]
@@ -116,45 +116,94 @@
   },
   "kimchi": {
     "usdkrw": 1477.311478,
-    "btcKrw": 100152000.0,
-    "coinKrw": 2895000.0,
-    "btcPrem": -0.9107714406121792,
-    "coinPrem": -0.8504690814724603
+    "btcKrw": 101568000.0,
+    "coinKrw": 2940000.0,
+    "btcPrem": -1.0876179148872733,
+    "coinPrem": -1.0854377726396858
+  },
+  "catalysts": {
+    "bullish": [
+      {
+        "title": "ETH 스테이킹/수수료 정책 완화 기대",
+        "probability": "중간",
+        "impact": "강",
+        "direction": "+",
+        "note": "정책 불확실성이 완화되면 장기 보유 심리와 네트워크 락업 수요가 개선될 가능성이 있습니다."
+      },
+      {
+        "title": "ETH/BTC 상대강도 반등 시그널",
+        "probability": "낮음",
+        "impact": "중",
+        "direction": "+",
+        "note": "현재 ETH/BTC 7D -4.33%로 아직 약하지만, 하락 둔화/양전환 시 알트 선호 재개 신호가 됩니다."
+      },
+      {
+        "title": "파생 과열 완화(중립~약음수 펀딩)",
+        "probability": "높음",
+        "impact": "중",
+        "direction": "+",
+        "note": "평균 펀딩 -0.0020%로 과열이 낮아 급격한 롱 청산 리스크가 상대적으로 줄어든 상태입니다."
+      }
+    ],
+    "bearish": [
+      {
+        "title": "규제/정책 발언에 따른 변동성 재확대",
+        "probability": "중간",
+        "impact": "강",
+        "direction": "-",
+        "note": "정책 관련 헤드라인은 단기 방향을 급격히 바꾸므로, 발생 시 추격 금지·리스크 축소가 우선입니다."
+      },
+      {
+        "title": "ETH/BTC 추가 약세 지속",
+        "probability": "높음",
+        "impact": "중",
+        "direction": "-",
+        "note": "ETH/BTC 7D -4.33% 약세가 이어지면 ETH 단독 랠리 신뢰도가 낮아집니다."
+      },
+      {
+        "title": "레버리지 재팽창 동반 하락",
+        "probability": "낮음",
+        "impact": "강",
+        "direction": "-",
+        "note": "OI -5.97% 변화와 함께 하락이 동반되면 강제청산성 하방이 커질 수 있습니다."
+      }
+    ],
+    "houseView": "단기 노이즈에 일희일비보다, 이벤트 발생 여부와 ETH/BTC 회복 확인에 따라 단계적으로 행동하는 전략이 유리합니다."
   },
   "indicators": [
     {
       "name": "유동성(펀딩 프록시)",
-      "score": 5.3,
+      "score": 5.2,
       "signal": "관망",
-      "reason": "평균 펀딩 -0.0039%",
+      "reason": "평균 펀딩 -0.0020%",
       "comment": "펀딩이 중립 또는 약음수 구간이면 레버리지 과열이 완화된 상태로 해석합니다. 즉, 단기 급락을 유발할 수 있는 과열 롱 포지션이 상대적으로 줄어든 국면이며, 추격매수보다 계획된 분할 진입이 유리한 환경입니다."
     },
     {
       "name": "BTC 도미넌스 구조(프록시)",
-      "score": 8.0,
+      "score": 7.9,
       "signal": "청신호",
-      "reason": "ETH/BTC 7D -4.56%",
+      "reason": "ETH/BTC 7D -4.33%",
       "comment": "ETH/BTC 약세는 시장 자금이 알트보다 BTC로 쏠리는 흐름을 의미합니다. 이 구간에서는 ETH 단독 비중을 급격히 늘리기보다, BTC 대비 상대강도 회복 여부를 먼저 확인하는 보수적 접근이 유리합니다."
     },
     {
       "name": "ETH/BTC 상대강도",
-      "score": 1.2,
+      "score": 1.4,
       "signal": "적신호",
-      "reason": "ETH/BTC 7D -4.56%, 30D -3.09%",
+      "reason": "ETH/BTC 7D -4.33%, 30D -2.85%",
       "comment": "ETH/BTC는 ETH 매매에서 가장 중요한 선행지표 중 하나입니다. 단기(7D)와 중기(30D)가 동시에 약하면 반등 신뢰도가 떨어지므로, 가격이 반등해도 비중 확대를 서두르지 않는 것이 좋습니다."
     },
     {
       "name": "시장 모멘텀",
-      "score": 5.3,
+      "score": 6.1,
       "signal": "관망",
-      "reason": "BTC 7D +0.64%",
+      "reason": "BTC 7D +2.24%",
       "comment": "시장 코어 자산인 BTC의 7일 모멘텀으로 전체 체온을 측정합니다. BTC가 약하면 알트의 독립 상승이 오래가기 어렵고, BTC가 안정적이면 ETH 반등 전략의 성공 확률이 높아집니다."
     },
     {
       "name": "펀딩 과열도",
-      "score": 8.9,
+      "score": 9.2,
       "signal": "청신호",
-      "reason": "평균 펀딩 -0.0039%",
+      "reason": "평균 펀딩 -0.0020%",
       "comment": "펀딩이 과도한 플러스 구간이면 롱 과열로 해석하며, 갑작스러운 롱 청산 리스크가 커집니다. 현재 값은 과열이 크지 않아 급격한 변동성 폭발 가능성은 낮은 편이지만, 급변 시 즉시 방어모드 전환이 필요합니다."
     },
     {
@@ -180,16 +229,16 @@
     },
     {
       "name": "BTC 추세 모멘텀",
-      "score": 5.3,
+      "score": 6.1,
       "signal": "관망",
-      "reason": "BTC 7D +0.64%",
+      "reason": "BTC 7D +2.24%",
       "comment": "BTC 추세는 알트의 방향성을 제약하는 상위 변수입니다. ETH 전략도 결국 BTC 흐름과 동조되므로, BTC 추세 약화 구간에서는 목표수익을 낮추고 방어적 익절 비중을 높이는 편이 안정적입니다."
     },
     {
       "name": "ETH 절대+상대 모멘텀",
-      "score": 1.9,
+      "score": 2.8,
       "signal": "적신호",
-      "reason": "ETH 7D -3.94%, 30D -15.79%",
+      "reason": "ETH 7D -2.22%, 30D -14.28%",
       "comment": "ETH 자체 수익률(절대)과 BTC 대비 강도(상대)를 함께 반영한 종합 체력 지표입니다. 절대 반등이 있어도 상대강도가 약하면 추세 지속성이 낮을 수 있어, 1·2·3차 분할 계획을 고정해 기계적으로 대응하는 것이 유리합니다."
     }
   ]

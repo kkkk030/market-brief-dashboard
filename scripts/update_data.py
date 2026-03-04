@@ -237,6 +237,57 @@ def main():
         "확인형 분할매수" if committee_score >= 5.0 else "관망 및 비중관리"
     )
 
+    # 이벤트 드라이버(호재/악재) 레이어
+    catalysts = {
+        "bullish": [
+            {
+                "title": "ETH 스테이킹/수수료 정책 완화 기대",
+                "probability": "중간",
+                "impact": "강",
+                "direction": "+",
+                "note": "정책 불확실성이 완화되면 장기 보유 심리와 네트워크 락업 수요가 개선될 가능성이 있습니다."
+            },
+            {
+                "title": "ETH/BTC 상대강도 반등 시그널",
+                "probability": "중간" if ethbtc7 > -2 else "낮음",
+                "impact": "중",
+                "direction": "+",
+                "note": f"현재 ETH/BTC 7D {ethbtc7:+.2f}%로 아직 약하지만, 하락 둔화/양전환 시 알트 선호 재개 신호가 됩니다."
+            },
+            {
+                "title": "파생 과열 완화(중립~약음수 펀딩)",
+                "probability": "높음",
+                "impact": "중",
+                "direction": "+",
+                "note": f"평균 펀딩 {favg:+.4f}%로 과열이 낮아 급격한 롱 청산 리스크가 상대적으로 줄어든 상태입니다."
+            }
+        ],
+        "bearish": [
+            {
+                "title": "규제/정책 발언에 따른 변동성 재확대",
+                "probability": "중간",
+                "impact": "강",
+                "direction": "-",
+                "note": "정책 관련 헤드라인은 단기 방향을 급격히 바꾸므로, 발생 시 추격 금지·리스크 축소가 우선입니다."
+            },
+            {
+                "title": "ETH/BTC 추가 약세 지속",
+                "probability": "높음" if ethbtc7 < 0 else "중간",
+                "impact": "중",
+                "direction": "-",
+                "note": f"ETH/BTC 7D {ethbtc7:+.2f}% 약세가 이어지면 ETH 단독 랠리 신뢰도가 낮아집니다."
+            },
+            {
+                "title": "레버리지 재팽창 동반 하락",
+                "probability": "중간" if oi_chg > 0 else "낮음",
+                "impact": "강",
+                "direction": "-",
+                "note": f"OI {oi_chg:+.2f}% 변화와 함께 하락이 동반되면 강제청산성 하방이 커질 수 있습니다."
+            }
+        ],
+        "houseView": "단기 노이즈에 일희일비보다, 이벤트 발생 여부와 ETH/BTC 회복 확인에 따라 단계적으로 행동하는 전략이 유리합니다."
+    }
+
     entry1 = round(up_e * 0.98)
     entry2 = round(up_e * 0.94)
     entry3 = round(up_e * 0.90)
@@ -290,6 +341,7 @@ def main():
             "btcPrem": kim_b,
             "coinPrem": kim_e,
         },
+        "catalysts": catalysts,
         "indicators": indicators,
     }
 
