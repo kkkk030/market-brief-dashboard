@@ -46,21 +46,50 @@ def score_kimchi_flow(kimchi_pct: float) -> float:
     """
     김프/역프 기반 자금흐름 점수(0~10).
     - 약한 역프(-0.5~-2.0%): 매력 구간으로 가점
-    - 중립 구간(-2.0~-3.5%, +0.5% 이내): 관망
+    - 중간 역프(-2.0~-3.5%): 완만 감점
     - 과도한 역프(<-3.5%) 또는 과열 프리미엄(>+0.5%): 감점
     """
     k = kimchi_pct
     if -2.0 <= k <= 0.5:
-        # 중심을 -1.2%로 두고 완만한 봉우리 형태
-        return clamp(7.2 - abs(k + 1.2) * 1.2)
+        return clamp(7.0 - abs(k + 1.1) * 1.15)
     if -3.5 <= k < -2.0:
-        # 깊어질수록 점진 감점
-        return clamp(5.2 - (abs(k) - 2.0) * 1.1)
+        return clamp(5.0 - (abs(k) - 2.0) * 1.05)
     if k < -3.5:
-        # 유동성 경색 가능성 높아 강한 감점
-        return clamp(2.8 - (abs(k) - 3.5) * 1.0)
-    # k > +0.5: 국내 과열 프리미엄 구간
-    return clamp(5.0 - (k - 0.5) * 1.4)
+        return clamp(2.6 - (abs(k) - 3.5) * 1.0)
+    return clamp(5.0 - (k - 0.5) * 1.35)
+
+
+def score_fng(fear: float) -> float:
+    """공포탐욕지수 점수(0~10), 극단값에서 과도한 감점 완화."""
+    f = float(fear)
+    if f < 15:
+        return 2.8
+    if f < 25:
+        return 3.6
+    if f < 40:
+        return 4.8
+    if f < 60:
+        return 6.2
+    if f < 75:
+        return 7.2
+    return 8.0
+
+
+def score_derivatives(favg: float, oi_chg: float) -> float:
+    """파생 안정성 점수: OI 급변 패널티 강화."""
+    base = 7.2 - abs(favg - 0.005) * 90
+    oi_penalty = abs(oi_chg) * 0.22
+    return clamp(base - oi_penalty)
+
+
+def score_risk_control(ratio: float, ratio_chg: float, eth7: float, oi_chg: float) -> float:
+    """리스크관리 점수: 추세 강점 + 과열/급변 페널티 균형."""
+    score = 6.0
+    score += max(-1.2, min(1.2, eth7 / 8.0))
+    score -= min(2.5, abs(ratio - 1.0) * 10)
+    score -= min(2.0, abs(ratio_chg) * 0.08)
+    score -= min(2.0, abs(oi_chg) * 0.10)
+    return clamp(score)
 
 
 def kline_close(kl):
@@ -155,8 +184,8 @@ def main():
     add_i("펀딩 과열도", clamp(10 - abs(favg - 0.005) * 120), f"평균 펀딩 {favg:+.4f}%", "펀딩이 과도한 플러스 구간이면 롱 과열로 해석하며, 갑작스러운 롱 청산 리스크가 커집니다. 현재 값은 과열이 크지 않아 급격한 변동성 폭발 가능성은 낮은 편이지만, 급변 시 즉시 방어모드 전환이 필요합니다.")
     add_i("미결제약정 안정성", clamp(10 - abs(oi_chg) * 0.7), f"ETH OI {oi_chg:+.2f}%", "OI 변화는 레버리지의 확장/축소 속도를 보여줍니다. 급증은 과열, 급감은 포지션 청산을 의미하며 둘 다 변동성 확대 신호입니다. 따라서 OI 급변 구간에서는 진입 간격을 넓히고 손절 기준을 엄격히 적용해야 합니다.")
     add_i("테이커 수급 균형", clamp(10 - abs(ratio - 1.04) * 40 - abs(ratio_chg) * 0.2), f"비율 {ratio:.3f}, 전일 {ratio_chg:+.2f}%", "테이커 매수/매도 비율은 실제 공격 주문의 균형을 보여줍니다. 한쪽으로 과도하게 쏠리면 되돌림 가능성이 커지므로, 수급 균형이 깨지는 구간에서는 추격 진입보다 눌림 또는 이탈 확인 전략이 적합합니다.")
-    add_i("시장 심리(F&G)", clamp(fear / 10), f"F&G {fear:.0f}/100", "심리 지표가 극단 공포에 가까울수록 기술적 반등이 나와도 신뢰도가 낮아질 수 있습니다. 이 구간은 '싸 보여서 전량 매수'보다는 단계적 진입과 빠른 리스크 점검이 핵심입니다.")
-    add_i("BTC 추세 모멘텀", clamp(5 + btc7 / 2), f"BTC 7D {btc7:+.2f}%", "BTC 추세는 알트의 방향성을 제약하는 상위 변수입니다. ETH 전략도 결국 BTC 흐름과 동조되므로, BTC 추세 약화 구간에서는 목표수익을 낮추고 방어적 익절 비중을 높이는 편이 안정적입니다.")
+    add_i("시장 심리(F&G)", score_fng(fear), f"F&G {fear:.0f}/100", "극단 공포/탐욕에서 점수가 과도하게 왜곡되지 않도록 구간형으로 반영합니다. 공포 구간은 리스크 경계 신호지만, 역발상 분할진입 가능성도 함께 고려합니다.")
+    add_i("추세 폭(중기 브레드스)", clamp(5 + btc7 / 3 + ethbtc30 / 3), f"BTC 7D {btc7:+.2f}%, ETH/BTC 30D {ethbtc30:+.2f}%", "단기 BTC 강세 단일신호를 중복 반영하지 않기 위해, BTC 단기 모멘텀과 ETH 상대강도(30D)를 함께 본 중기 폭 지표입니다.")
     add_i("ETH 절대+상대 모멘텀", clamp(5 + eth7 / 2 + ethbtc7 / 4), f"ETH 7D {eth7:+.2f}%, 30D {eth30:+.2f}%", "ETH 자체 수익률(절대)과 BTC 대비 강도(상대)를 함께 반영한 종합 체력 지표입니다. 절대 반등이 있어도 상대강도가 약하면 추세 지속성이 낮을 수 있어, 1·2·3차 분할 계획을 고정해 기계적으로 대응하는 것이 유리합니다.")
 
     total = round(sum(x["score"] for x in indicators) / len(indicators), 1)
@@ -196,9 +225,9 @@ def main():
     )
     add_desk(
         "Derivatives Desk",
-        clamp(10 - abs(favg - 0.005) * 120 - abs(oi_chg) * 0.15),
+        score_derivatives(favg, oi_chg),
         f"펀딩 {favg:+.4f}%, ETH OI {oi_chg:+.2f}%",
-        "과열 낮음. 다만 OI 급변시 레버리지 축소",
+        "OI 급변 패널티를 강화해 과열/청산 리스크를 보수적으로 반영",
     )
     add_desk(
         "Technical Structure Desk",
@@ -220,9 +249,9 @@ def main():
     )
     add_desk(
         "Risk Control Desk",
-        clamp(10 - abs(ratio - 1.0) * 20 - max(0, -eth7) * 0.15),
-        f"테이커비 {ratio:.3f}, ETH7D {eth7:+.2f}%",
-        "분할진입 20/30/50, 무효화 조건 엄수",
+        score_risk_control(ratio, ratio_chg, eth7, oi_chg),
+        f"테이커비 {ratio:.3f}, 전일변화 {ratio_chg:+.2f}%, ETH7D {eth7:+.2f}%, OI {oi_chg:+.2f}%",
+        "테이커 쏠림·OI 급변 패널티를 반영해 무리한 고점수 방지",
     )
 
     committee_score = round(sum(d["score"] for d in desks) / len(desks), 1)
