@@ -8,10 +8,47 @@ const recClass = (r) => {
   return 'rec-strong-sell';
 };
 
+const REFRESH_API = window.REFRESH_API || 'http://127.0.0.1:8787';
+const REFRESH_TOKEN = window.REFRESH_TOKEN || '';
+
 async function loadData() {
   const r = await fetch('./data/dashboard_data.json?v=' + Date.now());
   if (!r.ok) throw new Error('대시보드 데이터 로드 실패');
   return r.json();
+}
+
+async function triggerRefresh(coin = 'ETH') {
+  const btn = document.getElementById('refreshNowBtn');
+  const status = document.getElementById('refreshNowStatus');
+  if (!btn || !status) return;
+
+  btn.disabled = true;
+  status.textContent = '최신 지표 계산 중...';
+
+  try {
+    const r = await fetch(`${REFRESH_API}/refresh?coin=${encodeURIComponent(coin)}&publish=1`, {
+      method: 'POST',
+      headers: {
+        ...(REFRESH_TOKEN ? { 'x-refresh-token': REFRESH_TOKEN } : {}),
+      },
+    });
+
+    const data = await r.json();
+    if (!r.ok || !data.ok) {
+      throw new Error(data?.error || `refresh failed (${r.status})`);
+    }
+
+    status.textContent = `최신화 완료: ${new Date().toLocaleTimeString('ko-KR')}`;
+    if (data?.data?.generatedAt) {
+      renderAll(data.data);
+    } else {
+      await main();
+    }
+  } catch (e) {
+    status.textContent = `최신화 실패: ${e.message}`;
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 function renderSummary(s, coin) {
@@ -159,8 +196,7 @@ function renderIndicators(indicators) {
   `).join('');
 }
 
-async function main() {
-  const data = await loadData();
+function renderAll(data) {
   document.getElementById('generatedAt').textContent = `업데이트: ${new Date(data.generatedAt).toLocaleString('ko-KR')}`;
 
   const coin = data.targetCoin || 'ETH';
@@ -172,9 +208,19 @@ async function main() {
   renderKimchi(data.kimchi, coin);
   renderDesks(data.committee.desks || []);
   renderCatalysts(data.catalysts || {});
-  renderHistoryModel(data.historyModel || {framework:'N/A',features:[],currentInterpretation:'N/A',riskNote:'N/A'});
+  renderHistoryModel(data.historyModel || { framework:'N/A', features:[], currentInterpretation:'N/A', riskNote:'N/A' });
   renderIndicators(data.indicators || []);
 }
+
+async function main() {
+  const data = await loadData();
+  renderAll(data);
+}
+
+document.getElementById('refreshNowBtn')?.addEventListener('click', async () => {
+  const coin = (document.querySelector('.hero h1')?.textContent || '').includes('XRP') ? 'XRP' : 'ETH';
+  await triggerRefresh(coin);
+});
 
 main().catch((e) => {
   document.getElementById('generatedAt').textContent = `오류: ${e.message}`;
