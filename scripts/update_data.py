@@ -42,6 +42,27 @@ def pct(a: float, b: float):
     return (a / b - 1.0) * 100.0
 
 
+def score_kimchi_flow(kimchi_pct: float) -> float:
+    """
+    김프/역프 기반 자금흐름 점수(0~10).
+    - 약한 역프(-0.5~-2.0%): 매력 구간으로 가점
+    - 중립 구간(-2.0~-3.5%, +0.5% 이내): 관망
+    - 과도한 역프(<-3.5%) 또는 과열 프리미엄(>+0.5%): 감점
+    """
+    k = kimchi_pct
+    if -2.0 <= k <= 0.5:
+        # 중심을 -1.2%로 두고 완만한 봉우리 형태
+        return clamp(7.2 - abs(k + 1.2) * 1.2)
+    if -3.5 <= k < -2.0:
+        # 깊어질수록 점진 감점
+        return clamp(5.2 - (abs(k) - 2.0) * 1.1)
+    if k < -3.5:
+        # 유동성 경색 가능성 높아 강한 감점
+        return clamp(2.8 - (abs(k) - 3.5) * 1.0)
+    # k > +0.5: 국내 과열 프리미엄 구간
+    return clamp(5.0 - (k - 0.5) * 1.4)
+
+
 def kline_close(kl):
     return [float(k[4]) for k in kl]
 
@@ -169,9 +190,9 @@ def main():
     )
     add_desk(
         "On-chain/Flow Desk",
-        clamp(5 + kim_e * 0.4 + (0.5 - abs(kim_e)) * 2),
+        score_kimchi_flow(kim_e),
         f"ETH 김프 {kim_e:+.2f}% (역프면 국내 과열 완화)",
-        "역프 구간은 단기 반등 가능성 체크",
+        "약한 역프는 가점, 과도한 역프는 유동성 경색 리스크로 감점",
     )
     add_desk(
         "Derivatives Desk",
