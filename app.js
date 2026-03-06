@@ -8,7 +8,7 @@ const recClass = (r) => {
   return 'rec-strong-sell';
 };
 
-const REFRESH_API = window.REFRESH_API || 'http://127.0.0.1:8787';
+const REFRESH_API = window.REFRESH_API || 'https://18bb58bab642c8.lhr.life';
 const REFRESH_TOKEN = window.REFRESH_TOKEN || '';
 
 async function loadData() {
